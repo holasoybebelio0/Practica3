@@ -4,11 +4,6 @@ package dades;
     private String alies;
     private String correu;
 
-    /**
-     * Constructor de la classe Usuari
-     * @param alies Alies de l'usuari
-     * @param correu Correu de l'usuari
-     */
     public Usuari(String alies, String correu) {
         this.alies = alies;
         this.correu = correu;

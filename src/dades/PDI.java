@@ -36,5 +36,5 @@ public class PDI extends Usuari {
     public Usuari copia() {
         return new PDI(this.getAlies(), this.getCorreu(), this.departament, this.campus);
     }
-
+    
 }
