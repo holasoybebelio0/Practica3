@@ -56,4 +56,8 @@ public abstract class Activitat {
     }
 
     public abstract Activitat copia();
+
+    public abstract boolean hihaPlaces();
+
+    public abstract double getPreu();
 }
