@@ -54,21 +54,21 @@ public class ActivitatUnDia extends Activitat{
     public Activitat copia() {
         return new ActivitatUnDia(
             this.nom,
-            this.colectius, 
+            this.colectius,           
             this.dataIniciInscripcio,
             this.dataFinalInscripcio,
-            this.data,
-            this.horari,
-            this.places,
-            this.preu,
-            this.ciutat
+            this.data, 
+            this.ciutat, 
+            this.preu,  
+            this.places,  
+            this.horari
         );
     }
 
     @Override
     public String toString() {
         return "ActivitatUnDia [data=" + data + ", ciutat=" + ciutat + ", preu=" + preu + ", places=" + places
-                + ", horari=" + horari + ", toString=" + toString + "]";
+                + ", horari=" + horari + ", toString=" + toString() + "]";
     }
-
+}
     
