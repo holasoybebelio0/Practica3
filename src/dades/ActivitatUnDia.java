@@ -70,5 +70,11 @@ public class ActivitatUnDia extends Activitat{
         return "ActivitatUnDia [data=" + data + ", ciutat=" + ciutat + ", preu=" + preu + ", places=" + places
                 + ", horari=" + horari + ", toString=" + toString() + "]";
     }
+
+    @Override
+    public boolean hihaPlaces() {
+        return places > 0;
+    }
+    
 }
     

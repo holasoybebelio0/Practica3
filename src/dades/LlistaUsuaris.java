@@ -28,6 +28,24 @@ public class LlistaUsuaris {
         }
     }
 
+    public int getNumUsuaris() {
+        return numUsuaris;
+    }
 
+    @Override
+    public String toString() {
+        String resultat = "Llista d'usuaris:\n";
+        for (int i = 0; i < numUsuaris; i++) {
+            resultat += usuaris[i].toString() + "\n\n";
+        }
+        return resultat;
+    }
 
+    public LlistaUsuaris copia() {
+        LlistaUsuaris llistaCopiada = new LlistaUsuaris(usuaris.length);
+        for (int i = 0; i < numUsuaris; i++) {
+            llistaCopiada.afegirUsuari(usuaris[i].copia());
+        }
+        return llistaCopiada;
+    }
 }
