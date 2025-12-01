@@ -2,32 +2,40 @@ package dades;
 
 
 public class inscripcions { 
-    private int numInscripcions;
-    private int numPlaces;
+    private String nomParticipant;
+    private String dataInscripcio; 
 
-    /**CONSTRUCTOR */
-    public inscripcions (int numInscripcions, int numPlaces){
-        this.numInscripcions = numInscripcions;
-        this.numPlaces = numPlaces;
+    public inscripcions(String nomParticipant, String dataInscripcio) {
+        this.nomParticipant = nomParticipant;
+        this.dataInscripcio = dataInscripcio;
     }
-
-    //GETTERS I SETTERS
-    public int getNumInscripcions() {
-        return numInscripcions;
+    public String getNomParticipant() {
+        return nomParticipant;
+    }
+    public String getDataInscripcio() {
+        return dataInscripcio;
+    }
+    @Override
+    public String toString() {
+        return "Inscripcions [nomParticipant=" + nomParticipant + ", dataInscripcio=" + dataInscripcio + "]";
     }   
 
-    public int getNumPlaces() {
-        return numPlaces;
+    public inscripcions copia() {
+        return new inscripcions(nomParticipant, dataInscripcio);
+    }
+    //SI esta llena la lista, se añade a otra lista de espera que maximo puede tener 10 personas
+
+    public LlistaInscripcions LlistaEspera() {
+        return new LlistaInscripcions(10);
+    }
+    //Al acabar la actividad los usuarios valoraran del 1-10 la experiencia
+   
+    public void valorarExperiencia(int valoracio) {
+        if (valoracio < 1 || valoracio > 10) {
+            System.out.println("Valoració invàlida. Si us plau, introdueix un valor entre 1 i 10.");
+        } else {
+            System.out.println("Gràcies per la teva valoració de " + valoracio + "!");
+        }
     }
 
-    public void setNumPlaces(int numPlaces) {
-        this.numPlaces = numPlaces;
-    }
-
-    public void setNumInscripcions(int insc){
-        this.numInscripcions = insc;
-
-    }
-    
-    
 }

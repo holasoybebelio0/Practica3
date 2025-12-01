@@ -36,5 +36,16 @@ public class LlistaInscripcions {
         }
         return llistaCopiada;
     }
+    @Override
+    public String toString() {
+        String resultat = "Llista de "+numInscripcions+" inscripcions:\n";
+        for (int i = 0; i < numInscripcions; i++) {
+            resultat += LlistaIncripcions[i].toString() + "\n";
+        }
+        return resultat;
+    }
+    public LlistaInscripcions LlistaEspera() {
+        return new LlistaInscripcions(10);
+    }   
 
 }
