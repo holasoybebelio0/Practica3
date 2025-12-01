@@ -1,6 +1,6 @@
 package dades;
 
-import java.util.Arrays;
+
 
 public abstract class Activitat {
     protected String nom; 
