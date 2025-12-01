@@ -22,7 +22,7 @@ public class PTGAS extends Usuari {
         return "Usuari PTGAS:\n" +
                "Alies: " + getAlies() + "\n" +
                "Correu: " + getCorreuComplet() + "\n" +
-               "Campus: " + campus;
+               "Campus: " + campus + "\n";
     }
 
     @Override

@@ -12,7 +12,7 @@ public class LlistaUsuaris {
 
     public void afegirUsuari(Usuari usuari) {
         if (numUsuaris < usuaris.length) {
-            usuaris[numUsuaris] = usuari;
+            usuaris[numUsuaris] = usuari.copia();
             numUsuaris++;
         } else {
             System.out.println("No es poden afegir més usuaris, capacitat plena.");
@@ -34,9 +34,9 @@ public class LlistaUsuaris {
 
     @Override
     public String toString() {
-        String resultat = "Llista d'usuaris:\n";
+        String resultat = "Llista de "+numUsuaris+" usuaris:\n";
         for (int i = 0; i < numUsuaris; i++) {
-            resultat += usuaris[i].toString() + "\n\n";
+            resultat += usuaris[i].toString() + "\n";
         }
         return resultat;
     }

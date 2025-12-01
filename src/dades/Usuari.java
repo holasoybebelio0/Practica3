@@ -14,7 +14,7 @@ package dades;
     }
 
     public String getCorreu() {
-        return correu;
+        return correu.toLowerCase();
     }
 
     public abstract String getCorreuComplet();

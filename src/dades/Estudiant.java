@@ -12,17 +12,17 @@ public class Estudiant extends Usuari{
 
     @Override
     public String getCorreuComplet() {
-        return getAlies() + "@estudiant.urv.cat";
+        return getAlies() + "@estudiants.urv.cat";
     }
    
+
     @Override
     public String toString() {
-        return "Estudiant{" +
-                "alies='" + getAlies() + '\'' +
-                ", correu='" + getCorreu() + '\'' +
-                ", ensenyament='" + ensenyament + '\'' +
-                ", anyInici=" + anyInici +
-                '}';
+        return "Usuari Estudiant:\n" +
+               "Alies: " + getAlies() + "\n" +
+               "Correu: " + getCorreuComplet() + "\n" +
+               "Ensenyament: " + ensenyament + "\n" +
+               "Any d'inici: " + anyInici + "\n";
     }
    
     @Override

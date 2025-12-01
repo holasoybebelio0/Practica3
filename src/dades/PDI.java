@@ -29,7 +29,7 @@ public class PDI extends Usuari {
                "Alies: " + getAlies() + "\n" +
                "Correu: " + getCorreuComplet() + "\n" +
                "Departament: " + departament + "\n" +
-               "Campus: " + campus;
+               "Campus: " + campus + "\n";
     }
 
     @Override
