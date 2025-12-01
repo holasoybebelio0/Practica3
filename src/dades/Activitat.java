@@ -51,7 +51,7 @@ public abstract class Activitat {
 
     @Override
     public String toString() {
-        return "Activitat [nom=" + nom + ", colectius=" + Arrays.toString(colectius) + ", dataIniciInscripcio="
+        return "Activitat [nom=" + nom + ", colectius=" + colectius.toString() + ", dataIniciInscripcio="
                 + dataIniciInscripcio + ", dataFinalInscripcio=" + dataFinalInscripcio + "]";
     }
 
