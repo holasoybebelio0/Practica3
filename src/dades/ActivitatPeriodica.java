@@ -10,6 +10,8 @@ public class ActivitatPeriodica extends Activitat{
     private String nomCentre;
     private String ciutat;
 
+    private int nInscrits; // Número d'inscrits per a verificar si hi queden places.
+
     public ActivitatPeriodica (String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, String diaSetmana, String horari, String dataInici, int nSetmanes, int places, double preu, String nomCentre, String ciutat) {
         super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio);
         this.diaSetmana = diaSetmana;
@@ -19,7 +21,8 @@ public class ActivitatPeriodica extends Activitat{
         this.places = places;
         this.preu = preu; 
         this.nomCentre = nomCentre;
-        this.ciutat = ciutat; 
+        this.ciutat = ciutat;
+        this.nInscrits = 0; 
     }
 
     //Getters i setters
@@ -87,6 +90,18 @@ public class ActivitatPeriodica extends Activitat{
         this.ciutat = ciutat;
     }
 
+    public int getnInscrits() {
+        return nInscrits;
+    }
+
+    public void incnInscrits(int nInscrits) { 
+        if (hihaPlaces()) this.nInscrits++;
+    }
+    
+    public void setnInscrits(int nInscrits) { 
+        this.nInscrits = nInscrits;
+    }
+
     //To string
     @Override
     public String toString() {
@@ -112,9 +127,12 @@ public class ActivitatPeriodica extends Activitat{
             this.ciutat
         );
 
-}
-@Override
-public boolean hihaPlaces(){
-    return true;
-}
+    }
+
+    @Override
+    public boolean hihaPlaces(){
+        return (this.nInscrits<places);
+    }
+
+    
 }
