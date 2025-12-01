@@ -129,12 +129,30 @@ public class ValidacioActivitat{
         if (llista.getActivitatPerNom("Zumba") == null) {
             System.out.println("   -> [OK] Cercar una activitat inexistent retorna null.");
         }
+        // activitat online prova
+        System.out.println("\n[PROVA 6] Creant ActivitatOnline...");
+        String[] colectiusOnline = {"Tothom"};          
+        ActivitatOnline webinar = new ActivitatOnline(
+            "Webinar Programació",      // nom
+            colectiusOnline,            // colectius
+            "05/09/2025",               // inici inscripcio
+            "20/09/2025",               // final inscripcio
+            "https://example.com/webinar" // enllaç
+        );
+        System.out.println("   -> toString() resultat: " + webinar.toString());
+        if (webinar.getPreu() == 0.0 && webinar.hihaPlaces()) {
+            System.out.println("   -> [OK] Dades de l'activitat online correctes.");
+        } else {
+            System.out.println("   -> [ERROR] Dades incorrectes.");
+        }
+        
 
         System.out.println("\n==================================================");
         System.out.println("            FI DE LES PROVES - RESULTAT           ");
         System.out.println("==================================================");
     
-        //ACTIVITAT ONLINE (EVELIO) (ME falta hacer esto, luego lo hago)
+        
+
         
     }
     
