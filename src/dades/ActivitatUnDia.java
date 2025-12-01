@@ -6,6 +6,7 @@ public class ActivitatUnDia extends Activitat{
     private double preu; 
     private int places; 
     private String horari; 
+    private int nInscrits; 
 
     public ActivitatUnDia (String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, String data, String ciutat, double preu, int places, String horari) {
         super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio);
@@ -14,6 +15,7 @@ public class ActivitatUnDia extends Activitat{
         this.places = places;
         this.preu = preu; 
         this.ciutat = ciutat;
+        this.nInscrits = 0; 
     }
 
 
@@ -48,7 +50,18 @@ public class ActivitatUnDia extends Activitat{
     public void setHorari(String horari) {
         this.horari = horari;
     }
-    
+    public int getnInscrits() {
+        return nInscrits;
+    }
+    public void incnInscrits() {
+        if (hihaPlaces()) {
+            nInscrits++;
+        }
+    }
+    public void setninscrits (int numInscrits){
+        nInscrits = numInscrits;
+    }
+
     //Copia
     @Override
     public Activitat copia() {
@@ -68,12 +81,12 @@ public class ActivitatUnDia extends Activitat{
     @Override
     public String toString() {
         return "ActivitatUnDia [data=" + data + ", ciutat=" + ciutat + ", preu=" + preu + ", places=" + places
-                + ", horari=" + horari + ", toString=" + toString() + "]";
+                + ", Inscrits= "+ nInscrits+", horari=" + horari + ", toString=" + toString() + "]";
     }
 
     @Override
     public boolean hihaPlaces() {
-        return places > 0;
+        return nInscrits<places;
     }
     
 }
