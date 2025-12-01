@@ -94,7 +94,7 @@ public class ActivitatPeriodica extends Activitat{
         return nInscrits;
     }
 
-    public void incnInscrits(int nInscrits) { 
+    public void incnInscrits() { 
         if (hihaPlaces()) this.nInscrits++;
     }
     
