@@ -113,3 +113,8 @@ public class ActivitatPeriodica extends Activitat{
         );
 
 }
+@Override
+public boolean hihaPlaces(){
+    return true;
+}
+}
