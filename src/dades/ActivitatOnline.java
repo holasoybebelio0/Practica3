@@ -4,7 +4,7 @@ public class ActivitatOnline extends Activitat {
     private String enllac;
 
     public ActivitatOnline(String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, String enllac) {
-        super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio);
+        super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio, 1);
         this.enllac = enllac;
     }
 

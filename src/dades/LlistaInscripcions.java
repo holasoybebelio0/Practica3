@@ -48,11 +48,15 @@ public class LlistaInscripcions {
         return new LlistaInscripcions(10);
     }   
 
-    public void setInscripcioPosicio(int index){
-        if (index >= 0 && index < numInscripcions) {
-            
+    public void setInscripcioPosicio(int posicio, inscripcions novaInscripcio){
+        if (posicio >= 0 && posicio < LlistaIncripcions.length) {
+            if(LlistaIncripcions[posicio] == null){
+                numInscripcions++;
+            }
+            LlistaIncripcions[posicio] = novaInscripcio.copia();
         } 
         else {
+            System.out.println("Index invàlid");
+        }
     }
-
 }

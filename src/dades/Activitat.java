@@ -1,18 +1,18 @@
 package dades;
 
-
-
 public abstract class Activitat {
     protected String nom; 
     protected String[] colectius;
     protected String dataIniciInscripcio;
     protected String dataFinalInscripcio;
+    protected LlistaInscripcions llistaInscripcions;
 
-    public Activitat (String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio) {
+    public Activitat (String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, int places) {
         this.nom = nom; 
         this.dataFinalInscripcio = dataFinalInscripcio;
         this.dataIniciInscripcio = dataIniciInscripcio;
         this.colectius = colectius;
+        this.llistaInscripcions = new LlistaInscripcions(places);
     }
 
     public String getNom() {

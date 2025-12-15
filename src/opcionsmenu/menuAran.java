@@ -40,9 +40,10 @@ public void eliminarUsuariActivitat(LlistaInscripcions llista){
 
     while(!trobat && i < llista.getNumInscripcions()){
         if(nom.equals(llista.getInscripcio(i).getNomParticipant())){
-            for(int j = i; j < llista.getNumInscripcions(); j++){
-                llista.getInscripcio(i+j) = llista.getInscripcio(i+j+1).copia;
+            for(int j = i; j  < llista.getNumInscripcions() - 1; j++){
+                llista.setInscripcioPosicio(j, llista.getInscripcio(j+1));
             }
+            trobat = true;
         }
         else{
             i++;
