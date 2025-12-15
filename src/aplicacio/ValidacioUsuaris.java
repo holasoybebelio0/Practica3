@@ -1,5 +1,5 @@
 package aplicacio;
-import dades.*;
+import dades.usuaris.*;
 
 public class ValidacioUsuaris{
     public static void main(String[] args) throws Exception {

@@ -1,4 +1,4 @@
-package dades;
+package dades.usuaris;
 
 public class Estudiant extends Usuari{
     private String ensenyament;

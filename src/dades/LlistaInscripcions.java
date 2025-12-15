@@ -48,4 +48,11 @@ public class LlistaInscripcions {
         return new LlistaInscripcions(10);
     }   
 
+    public void setInscripcioPosicio(int index){
+        if (index >= 0 && index < numInscripcions) {
+            
+        } 
+        else {
+    }
+
 }
