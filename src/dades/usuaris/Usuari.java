@@ -1,4 +1,4 @@
-package dades;
+package dades.usuaris;
 
  abstract class Usuari {
     private String alies;

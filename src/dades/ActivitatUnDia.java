@@ -9,7 +9,7 @@ public class ActivitatUnDia extends Activitat{
     private int nInscrits; 
 
     public ActivitatUnDia (String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, String data, String ciutat, double preu, int places, String horari) {
-        super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio);
+        super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio, places);
         this.data = data;
         this.horari = horari; 
         this.places = places;

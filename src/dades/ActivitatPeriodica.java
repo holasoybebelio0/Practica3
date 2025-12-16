@@ -13,7 +13,7 @@ public class ActivitatPeriodica extends Activitat{
     private int nInscrits; // Número d'inscrits per a verificar si hi queden places.
 
     public ActivitatPeriodica (String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, String diaSetmana, String horari, String dataInici, int nSetmanes, int places, double preu, String nomCentre, String ciutat) {
-        super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio);
+        super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio, places);
         this.diaSetmana = diaSetmana;
         this.horari = horari;
         this.dataInici = dataInici;

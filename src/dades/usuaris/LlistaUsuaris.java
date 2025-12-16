@@ -1,4 +1,4 @@
-package dades;
+package dades.usuaris;
 
 public class LlistaUsuaris {
 
