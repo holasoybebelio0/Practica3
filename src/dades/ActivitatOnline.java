@@ -34,5 +34,8 @@ public class ActivitatOnline extends Activitat {
     public double getPreu() {   
         return 0.0; // Les activitats online són gratuïtes
     }
-    
+    @Override
+    public int getTipus() {
+        return 1;
+    }
 }

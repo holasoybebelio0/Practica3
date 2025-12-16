@@ -60,4 +60,6 @@ public abstract class Activitat {
     public abstract boolean hihaPlaces();
 
     public abstract double getPreu();
+
+    public abstract int getTipus();
 }

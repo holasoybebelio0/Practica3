@@ -146,6 +146,10 @@ public class ValidacioActivitat{
             System.out.println("   -> [ERROR] Dades incorrectes.");
         }
         
+        // ---------------------------------------------------------------
+        // 6. PROVA DE MOSTRAR LLISTA AMB FILTRE
+        // ---------------------------------------------------------------
+        
 
         System.out.println("\n==================================================");
         System.out.println("            FI DE LES PROVES - RESULTAT           ");

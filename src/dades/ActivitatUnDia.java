@@ -88,6 +88,11 @@ public class ActivitatUnDia extends Activitat{
     public boolean hihaPlaces() {
         return nInscrits<places;
     }
+
+    @Override
+    public int getTipus() {
+        return 3;
+    }
     
 }
     

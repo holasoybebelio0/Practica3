@@ -134,5 +134,9 @@ public class ActivitatPeriodica extends Activitat{
         return (this.nInscrits<places);
     }
 
+    @Override
+    public int getTipus() {
+        return 2;
+    }
     
 }

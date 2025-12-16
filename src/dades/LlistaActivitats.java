@@ -38,9 +38,23 @@ public class LlistaActivitats  {
         return nElems; 
     }
 
-    public void mostrarLlista() {
-        for (int i = 0; i<nElems; i++) {
-            System.out.println(llista[i].toString());
-        }
+    public void mostrarLlista(int filtre) { // IMPLEMENTAR EN EL VALIDACIOACTIVITAT las instrucciones de lo que vale cada filtro
+        if (filtre == 0) {
+            for (int i=0; i<nElems; i++) {
+                System.out.println(llista[i].toString());
+            }
+        } else if (filtre != 0) {
+            for (int i=0; i<nElems; i++) {
+                if (llista[i].getTipus() == filtre) {
+                    System.out.println(llista[i].toString());
+                } else {
+                    System.out.println("\nError: El valor del filtre només pot ser 0, 1 o 2.");
+
+                }
+            }
+        } 
     }
+
 }
+
+
