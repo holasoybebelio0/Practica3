@@ -47,5 +47,13 @@ public class LlistaInscripcions {
     public LlistaInscripcions LlistaEspera() {
         return new LlistaInscripcions(10);
     }   
+   
+    public void Indicardatavui() {
+        
+        
+        
+        
+    }
+    
 
 }
