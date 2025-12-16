@@ -47,6 +47,14 @@ public class LlistaInscripcions {
     public LlistaInscripcions LlistaEspera() {
         return new LlistaInscripcions(10);
     }   
+   
+    public void Indicardatavui() {
+        
+        
+        
+        
+    }
+    
 
     public void setInscripcioPosicio(int posicio, inscripcions novaInscripcio){
         if (posicio >= 0 && posicio < LlistaIncripcions.length) {
