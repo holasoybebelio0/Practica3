@@ -11,5 +11,8 @@ public class main {
         System.out.println("Data actual simulada: " + menu.getDataActual());
         
         menu.mostrarActivitatsInscripcio();
+
+        menuAran menuAran = new menuAran();
+        menuAran.executarJocDeProves();
     }
 }

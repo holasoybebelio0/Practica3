@@ -1,5 +1,6 @@
 package aplicacio;
 import dades.*;
+import java.time.LocalDate;
 
 public class ValidacioActivitat{
     public static void main(String[] args) throws Exception {
@@ -13,12 +14,16 @@ public class ValidacioActivitat{
         System.out.println("\n[PROVA 1] Creant ActivitatUnDia...");
         
         String[] colectiusTaller = {"Estudiants", "PDI"};
+
+        LocalDate dataIniciInscripcio = LocalDate.of(2025, 12, 2);
+        LocalDate dataFinalInscripcio = LocalDate.of(2025, 12, 2);
+        LocalDate dataActivitat = LocalDate.of(2025, 12, 2);
         ActivitatUnDia taller = new ActivitatUnDia(
             "Taller Java",              // nom
             colectiusTaller,            // colectius
-            "01/09/2025",               // inici inscripcio
-            "15/09/2025",               // final inscripcio
-            "20/10/2025",               // data activitat
+            dataIniciInscripcio,               // inici inscripcio
+            dataFinalInscripcio,               // final inscripcio
+            dataActivitat,               // data activitat
             "Tarragona",                    // ciutat
             15.50,                          // preu (Posem poques per provar d'omplir-ho)
             3,                      // places
