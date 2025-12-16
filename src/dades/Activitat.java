@@ -49,6 +49,7 @@ public abstract class Activitat {
         this.dataFinalInscripcio = dataFinalInscripcio;
     }
 
+   
     
 
     @Override
