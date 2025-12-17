@@ -1,6 +1,7 @@
 package opcionsmenu;
 
 import dades.*; // Importem les classes (LlistaUsuaris, PDI, PTGAS, etc.)
+import dades.usuaris.*;
 import java.time.LocalDate;
 
 public class menuEvelio {
@@ -53,7 +54,7 @@ public class menuEvelio {
             "Dimarts", "19:00", "2026-01-09", 10, 
             5, 40.0, "Pavelló", "Girona"
         );
-        basket.setnInscrits(5); // Forcem que estigui PLENA (0 places lliures)
+        basket.setnInscrits(2); // Forcem que estigui PLENA (0 places lliures)
 
         // ACTIVITAT C: Curs Java (Online, sempre hi ha lloc). Per a tothom.
         ActivitatOnline javaCurs = new ActivitatOnline(
