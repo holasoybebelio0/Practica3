@@ -88,7 +88,10 @@ public class LlistaActivitats  {
             Activitat act = llista[i];
             if (act.hihaPlaces()) {
                 try {
+
                     // 2. Control de dates (Període d'inscripció) 
+
+
                     LocalDate iniciInscripcio = LocalDate.parse(act.getDataIniciInscripcio(), formatter);
                     LocalDate fiInscripcio = LocalDate.parse(act.getDataFinalInscripcio(), formatter);
 
@@ -110,6 +113,7 @@ public class LlistaActivitats  {
             System.out.println("No s'han trobat activitats disponibles en aquesta data.");
         }
     }
+
 
     //TASCA 6 mostrar activitats amb placçes disponibles
     public void mostrarActivitatsAmbPlaces() {
