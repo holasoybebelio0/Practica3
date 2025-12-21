@@ -110,5 +110,23 @@ public class LlistaActivitats  {
             System.out.println("No s'han trobat activitats disponibles en aquesta data.");
         }
     }
+
+    //TASCA 6 mostrar activitats amb placçes disponibles
+    public void mostrarActivitatsAmbPlaces() {
+        System.out.println("--- ACTIVITATS AMB PLACES DISPONIBLES ---");
+        boolean algunaTrobada = false;
+
+        for (int i = 0; i < nElems; i++) {
+            Activitat act = llista[i];
+            if (act.hihaPlaces()) {
+                System.out.println(act.toString());
+                algunaTrobada = true;
+            }
+        }
+
+        if (!algunaTrobada) {
+            System.out.println("No hi ha activitats amb places disponibles.");
+        }
+    }
     
 }
