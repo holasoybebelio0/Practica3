@@ -1,6 +1,6 @@
 package opcionsmenu;
 
-import dades.*; 
+import dades.*; // Importem les classes (LlistaUsuaris, PDI, PTGAS, etc.)
 import dades.usuaris.*;
 import java.time.LocalDate;
 
@@ -54,7 +54,7 @@ public class menuEvelio {
             "Dimarts", "19:00", "2026-01-09", 10, 
             5, 40.0, "Pavelló", "Girona"
         );
-        basket.setnInscrits(5); // Forcem que estigui PLENA (0 places lliures)
+        basket.setnInscrits(2); // Forcem que estigui PLENA (0 places lliures)
 
         // ACTIVITAT C: Curs Java (Online, sempre hi ha lloc). Per a tothom.
         ActivitatOnline javaCurs = new ActivitatOnline(
@@ -79,7 +79,7 @@ public class menuEvelio {
         System.out.println("   PROVA DE TASCA 1 i TASCA 3");
         System.out.println("========================================");
 
-        // TASCA 1: Modificar la data
+        // EJECUTAR TASCA 1: Modificar la data
         // NOTA: Assegura't que el mètode es diu 'MostractDisp' o 'moddataActual' a la teva classe LlistaActivitats.
         // He fet servir 'MostractDisp' perquè és el que vam arreglar abans.
         dataSistema = laMevaLlista.moddataActual(dataSistema);
@@ -90,13 +90,5 @@ public class menuEvelio {
 
         // EJECUTAR TASCA 3: Veure quines activitats toquen avui
         laMevaLlista.mostrarActivitatsDisponibles(dataSistema);
-
-        //EJECTURAR TASCA 6: Mostrar activitats amb plaçes disponibles
-        System.out.println("\n========================================");
-        System.out.println("   PROVA DE TASCA 6");
-        System.out.println("========================================");
-        laMevaLlista.mostrarActivitatsAmbPlaces();
     }
-
-
 }

@@ -1,13 +1,15 @@
 package dades;
 
+import java.time.LocalDate;
+
 public abstract class Activitat {
     protected String nom; 
     protected String[] colectius;
-    protected String dataIniciInscripcio;
-    protected String dataFinalInscripcio;
+    protected LocalDate dataIniciInscripcio;
+    protected LocalDate dataFinalInscripcio;
     protected LlistaInscripcions llistaInscripcions;
 
-    public Activitat (String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, int places) {
+    public Activitat (String nom, String[] colectius, LocalDate dataIniciInscripcio, LocalDate dataFinalInscripcio, int places) {
         this.nom = nom; 
         this.dataFinalInscripcio = dataFinalInscripcio;
         this.dataIniciInscripcio = dataIniciInscripcio;
@@ -31,19 +33,19 @@ public abstract class Activitat {
         this.colectius = colectius;
     }
 
-    public String getDataIniciInscripcio() {
+    public LocalDate getDataIniciInscripcio() {
         return dataIniciInscripcio;
     }
 
-    public void setDataIniciInscripcio(String dataIniciInscripcio) {
+    public void setDataIniciInscripcio(LocalDate dataIniciInscripcio) {
         this.dataIniciInscripcio = dataIniciInscripcio;
     }
 
-    public String getDataFinalInscripcio() {
+    public LocalDate getDataFinalInscripcio() {
         return dataFinalInscripcio;
     }
 
-    public void setDataFinalInscripcio(String dataFinalInscripcio) {
+    public void setDataFinalInscripcio(LocalDate dataFinalInscripcio) {
         this.dataFinalInscripcio = dataFinalInscripcio;
     }
 
@@ -61,4 +63,6 @@ public abstract class Activitat {
     public abstract boolean hihaPlaces();
 
     public abstract double getPreu();
+
+    public abstract boolean esActiva(LocalDate dataObjectiu);
 }

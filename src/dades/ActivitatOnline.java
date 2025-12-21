@@ -1,11 +1,17 @@
 package dades;
 
+import java.time.LocalDate;
+
 public class ActivitatOnline extends Activitat {
     private String enllac;
+    private LocalDate dataIniciActivitat;
+    private int periodeDies;
 
-    public ActivitatOnline(String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, String enllac) {
+    public ActivitatOnline(String nom, String[] colectius, LocalDate dataIniciInscripcio, LocalDate dataFinalInscripcio, String enllac, LocalDate dataIniciActivitat, int periodeDies) {
         super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio, 1);
         this.enllac = enllac;
+        this.dataIniciActivitat = dataIniciActivitat;
+        this.periodeDies = periodeDies;
     }
 
     public String getEnllaç() {
@@ -16,6 +22,22 @@ public class ActivitatOnline extends Activitat {
         this.enllac = enllac;
     }
 
+    public LocalDate getDataIniciActivitat() {
+        return dataIniciActivitat;
+    }
+
+    public void setDataIniciActivitat(LocalDate dataIniciActivitat) {
+        this.dataIniciActivitat = dataIniciActivitat;
+    }
+
+    public int getPeriodeDies() {
+        return periodeDies;
+    }
+    
+    public void setPeriodeDies(int periodeDies) {
+        this.periodeDies = periodeDies;
+    }
+
     @Override
     public String toString() {
         return super.toString() + ", enllaç=" + enllac + "]";
@@ -23,7 +45,7 @@ public class ActivitatOnline extends Activitat {
 
     @Override
     public Activitat copia() {
-        return new ActivitatOnline(this.nom, this.colectius.clone(), this.dataIniciInscripcio, this.dataFinalInscripcio, this.enllac);
+        return new ActivitatOnline(this.nom, this.colectius.clone(), this.dataIniciInscripcio, this.dataFinalInscripcio, this.enllac, this.dataIniciActivitat, this.periodeDies);
     }
     
     @Override
@@ -33,6 +55,17 @@ public class ActivitatOnline extends Activitat {
     @Override
     public double getPreu() {   
         return 0.0; // Les activitats online són gratuïtes
+    }
+
+    @Override
+    public boolean esActiva(LocalDate dataObjectiu) {
+        try {
+            LocalDate fi = dataIniciActivitat.plusDays(this.periodeDies);
+            
+            return !dataObjectiu.isBefore(dataIniciActivitat) && !dataObjectiu.isAfter(fi);
+        } catch (Exception e) {
+            return false;
+        }
     }
     
 }
