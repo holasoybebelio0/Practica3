@@ -80,8 +80,6 @@ public class LlistaActivitats  {
     public void mostrarActivitatsDisponibles(LocalDate dataSimulacio) {
         System.out.println("--- ACTIVITATS EN PERÍODE D'INSCRIPCIÓ I AMB PLACES (" + dataSimulacio + ") ---");
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
         boolean algunaTrobada = false;
 
         for (int i = 0; i < nElems; i++) {
@@ -92,8 +90,8 @@ public class LlistaActivitats  {
                     // 2. Control de dates (Període d'inscripció) 
 
 
-                    LocalDate iniciInscripcio = LocalDate.parse(act.getDataIniciInscripcio(), formatter);
-                    LocalDate fiInscripcio = LocalDate.parse(act.getDataFinalInscripcio(), formatter);
+                    LocalDate iniciInscripcio = act.getDataIniciInscripcio();
+                    LocalDate fiInscripcio = act.getDataFinalInscripcio();
 
                     // Comprovem si dataSimulacio està dins el rang [inici, final]
                     boolean dinsPeriode = !dataSimulacio.isBefore(iniciInscripcio) && !dataSimulacio.isAfter(fiInscripcio);
