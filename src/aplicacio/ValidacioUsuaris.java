@@ -37,7 +37,9 @@ public class ValidacioUsuaris{
         System.out.println("\n-->\tIntentant afegir un 6è usuari (hauria de ser error)...");
         prova4.afegirUsuari(prova3);
 
-
+        
+        System.out.println("\nDetall d'un usuari segons el seu àlies (hauria de ser Fred)... \n");
+        prova4.mostrarDetallUsuariNom("Fred"); // Mostrem detalls de la activitat que té per nom Taller.
 
 
     }

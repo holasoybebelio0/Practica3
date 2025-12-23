@@ -149,7 +149,26 @@ public class LlistaActivitats  {
             System.out.println("No hi ha activitats amb places disponibles.");
         }
     }
-    
+
+    public void mostrarDetallActivitatNom (String nom) {
+        boolean trobat = false;
+        for (int i=0; i<nElems; i++) {
+            if (llista[i].getNom().equalsIgnoreCase(nom)) {
+                System.out.println(llista[i].toString());
+                trobat = true;
+            }
+        }
+        if (!trobat) {
+            System.out.println("\nNo s'han trobat coincidències.");
+        }
+    }
+
+    public void afegirActivitatPeriodica (ActivitatPeriodica actperiod) {
+        if (nElems < llista.length) {
+            llista[nElems] = actperiod.copia();
+            nElems++;
+        } else {
+            System.out.println("No es poden afegir més usuaris, capacitat plena.");
+        }
+    }
 }
-
-

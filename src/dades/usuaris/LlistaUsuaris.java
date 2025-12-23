@@ -48,4 +48,17 @@ public class LlistaUsuaris {
         }
         return llistaCopiada;
     }
+
+    public void mostrarDetallUsuariNom(String alies) {
+        boolean trobat = false;
+        for (int i=0; i<numUsuaris; i++) {
+            if (usuaris[i].getAlies().equalsIgnoreCase(alies)){
+                System.out.println(usuaris[i].toString());
+                trobat = true;
+            }
+        }
+        if (!trobat) {
+            System.out.println("\nNo s'han trobat coincidències.\n");
+        }
+    }
 }
