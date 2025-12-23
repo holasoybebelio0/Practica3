@@ -83,8 +83,8 @@ public class ActivitatUnDia extends Activitat{
 
     @Override
     public String toString() {
-        return "ActivitatUnDia [data=" + data + ", ciutat=" + ciutat + ", preu=" + preu + ", places=" + places
-                + ", Inscrits= "+ nInscrits+", horari=" + horari + ", toString=" + toString() + "]";
+        return "ActivitatUnDia [nom=" + nom + ", dataIniciInscripcio=" + dataIniciInscripcio + ", dataFinalInscripcio=" + dataFinalInscripcio
+                + ", data= "+ data+", ciutat=" + ciutat + ", preu=" + preu + ", places="+ places + ", horari=" +horari + "]";
     }
 
     @Override
@@ -104,6 +104,11 @@ public class ActivitatUnDia extends Activitat{
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public boolean teClasseAvui (LocalDate dia) {
+        return this.data.isEqual(dia);
     }
     
 }

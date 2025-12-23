@@ -72,4 +72,8 @@ public class ActivitatOnline extends Activitat {
         }
     }
     
+    @Override
+    public boolean teClasseAvui (LocalDate dia) {
+        return false; 
+    }
 }

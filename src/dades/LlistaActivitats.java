@@ -59,6 +59,14 @@ public class LlistaActivitats  {
             }
         } 
     }
+
+    public void mostrarActivitatsClasseAvui (LocalDate dia) {
+        for (int i=0; i<nElems; i++) {
+            if (llista[i].teClasseAvui(dia)) {
+                System.out.println(llista[i].toString());
+            }
+        }
+    }
     /**
      * Tasca 1: Modificar Data Actual del sistema.
      * @param dataActual

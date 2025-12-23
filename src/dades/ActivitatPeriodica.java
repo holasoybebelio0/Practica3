@@ -152,5 +152,18 @@ public class ActivitatPeriodica extends Activitat{
         }
     }
 
+    public boolean teClasseAvui(LocalDate dia) {
+        String diaAvui = "";
+        switch (dia.getDayOfWeek()) {
+            case MONDAY: diaAvui = "DILLUNS"; break;
+            case TUESDAY: diaAvui = "DIMARTS"; break;
+            case THURSDAY: diaAvui = "DIMECRES"; break;
+            case WEDNESDAY: diaAvui = "DIJOUS"; break;
+            case FRIDAY: diaAvui = "DIVENDRES"; break;
+            case SATURDAY: diaAvui = "DISSABTE"; break;
+            case SUNDAY: diaAvui = "DIUMENGE"; break;
+        }
+        return diaSetmana.equalsIgnoreCase(diaAvui);
+    }
     
 }

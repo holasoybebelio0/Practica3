@@ -65,5 +65,8 @@ public abstract class Activitat {
     public abstract double getPreu();
 
     public abstract int getTipus();
+
     public abstract boolean esActiva(LocalDate dataObjectiu);
+
+    public abstract boolean teClasseAvui(LocalDate dia);
 }
