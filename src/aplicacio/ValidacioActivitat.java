@@ -72,10 +72,10 @@ public class ValidacioActivitat{
         ActivitatPeriodica curs = new ActivitatPeriodica(
             "Curs Ioga", 
             colectiusCurs, 
-            "01/09/2025", "30/09/2025",
+            LocalDate.of(2025, 9, 1), LocalDate.of(2025, 9, 30),
             "Dilluns",          // dia setmana
             "18:00",            // horari
-            "01/10/2025",       // data inici
+            LocalDate.of(2025, 10, 01),       // data inici
             10,                 // num setmanes
             20,                 // places
             120.00,             // preu total
@@ -136,13 +136,16 @@ public class ValidacioActivitat{
         }
         // activitat online prova
         System.out.println("\n[PROVA 6] Creant ActivitatOnline...");
-        String[] colectiusOnline = {"Tothom"};          
+        String[] colectiusOnline = {"Tothom"}; 
+        int periodeDiesOnline = 30;         
         ActivitatOnline webinar = new ActivitatOnline(
             "Webinar Programació",      // nom
             colectiusOnline,            // colectius
-            "05/09/2025",               // inici inscripcio
-            "20/09/2025",               // final inscripcio
-            "https://example.com/webinar" // enllaç
+            LocalDate.of(2025, 9, 05),               // inici inscripcio
+            LocalDate.of(2025, 9, 20),               // final inscripcio
+            "https://example.com/webinar", // enllaç
+            LocalDate.of(2025, 9, 17),
+            periodeDiesOnline
         );
         System.out.println("   -> toString() resultat: " + webinar.toString());
         if (webinar.getPreu() == 0.0 && webinar.hihaPlaces()) {
@@ -151,7 +154,39 @@ public class ValidacioActivitat{
             System.out.println("   -> [ERROR] Dades incorrectes.");
         }
         
+        // ---------------------------------------------------------------
+        // ACT 4. Activitats que tenen classe avui
+        // ---------------------------------------------------------------
+        
+        System.out.println("\nActivitats que tenen classe avui: \n");
+        llista.mostrarActivitatsClasseAvui(LocalDate.of(2025, 12, 2));
+  
+        // ---------------------------------------------------------------
+        // ACT 7. Mostrar detall d'una activitat pel seu nom.
+        // ---------------------------------------------------------------
+        
+        System.out.println("\nDetall d'una activitat segons el seu nom: \n");
+        llista.mostrarDetallActivitatNom("Taller Java"); // Mostrem detalls de la activitat que té per nom Taller.
 
+        // ---------------------------------------------------------------
+        // ACT 14. Afegir una activitat periodica.
+        // ---------------------------------------------------------------
+        String[] colectiusFutbol = {"PTGAS"};
+        ActivitatPeriodica futbol = new ActivitatPeriodica(
+            "Futbol", 
+            colectiusFutbol, 
+            LocalDate.of(2025, 9, 2), LocalDate.of(2025, 9, 30),
+            "Dilluns",          // dia setmana
+            "18:00",            // horari
+            LocalDate.of(2025, 10, 01),       // data inici
+            10,                 // num setmanes
+            20,                 // places
+            120.00,             // preu total
+            "Gimnàs URV",       // centre
+            "Tarragona"              // ciutat
+        );
+        llista.afegirActivitatPeriodica(futbol);
+        System.out.println("\n"+futbol);
         System.out.println("\n==================================================");
         System.out.println("            FI DE LES PROVES - RESULTAT           ");
         System.out.println("==================================================");

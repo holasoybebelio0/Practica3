@@ -56,6 +56,10 @@ public class ActivitatOnline extends Activitat {
     public double getPreu() {   
         return 0.0; // Les activitats online són gratuïtes
     }
+    @Override
+    public int getTipus() {
+        return 1;
+    }
 
     @Override
     public boolean esActiva(LocalDate dataObjectiu) {
@@ -68,4 +72,8 @@ public class ActivitatOnline extends Activitat {
         }
     }
     
+    @Override
+    public boolean teClasseAvui (LocalDate dia) {
+        return false; 
+    }
 }
