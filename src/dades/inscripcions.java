@@ -38,4 +38,7 @@ public class inscripcions {
         }
     }
 
+    //EVELIO: HE AÑADIDO ESTOS SETTERS Y GETTERS DE LAS VALORACIONES
+    
+
 }

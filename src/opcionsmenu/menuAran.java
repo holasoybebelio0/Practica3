@@ -1,6 +1,5 @@
 package opcionsmenu;
 import dades.*;
-
 import java.time.LocalDate;
 import java.util.Scanner;
 

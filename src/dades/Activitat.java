@@ -49,9 +49,79 @@ public abstract class Activitat {
         this.dataFinalInscripcio = dataFinalInscripcio;
     }
 
-   
+   public boolean estaInscrit(String nomParticipant) {
+        for (int i = 0; i < llistaInscripcions.getNumInscripcions(); i++) {
+            if (llistaInscripcions.getInscripcio(i).getNomParticipant().equalsIgnoreCase(nomParticipant)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
+    public LlistaInscripcions getLlistaInscripcions() {
+        return llistaInscripcions;
+    }
 
+    public boolean haacabat(LocalDate dataActual) {
+        return dataActual.isAfter(dataFinalInscripcio);
+    }
+
+     private boolean esColectiuPermes(String tipusUsuari) {
+        for (String colectiu : colectius) {
+            if (colectiu.equalsIgnoreCase(tipusUsuari)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean afegirInscripcio(String nomParticipant, LocalDate dataActual, String tipusUsuari) {
+        // 1. Verificar si estamos en período de inscripción
+        if (dataActual.isBefore(dataIniciInscripcio)) {
+            System.out.println("ERROR: Encara no s'ha obert el període d'inscripció. Data d'inici: " + dataIniciInscripcio);
+            return false;
+        }
+        
+        if (dataActual.isAfter(dataFinalInscripcio)) {
+            System.out.println("ERROR: El període d'inscripció ja ha finalitzat. Data final: " + dataFinalInscripcio);
+            return false;
+        }
+        
+        // 2. Verificar si el colectivo está permitido
+        if (!esColectiuPermes(tipusUsuari)) {
+            System.out.println("ERROR: El col·lectiu " + tipusUsuari + " no està permès per a aquesta activitat.");
+            System.out.println("Col·lectius permesos: " + java.util.Arrays.toString(colectius));
+            return false;
+        }
+        
+        // 3. Verificar si el usuario ya está inscrito
+        if (estaInscrit(nomParticipant)) {
+            System.out.println("ERROR: L'usuari " + nomParticipant + " ja està inscrit en aquesta activitat.");
+            return false;
+        }
+        
+        // 4. Verificar si hay plazas disponibles (o lista de espera)
+        if (!llistaInscripcions.hihaPlaces() && llistaInscripcions.getNumEspera() >= 10) {
+            System.out.println("ERROR: Activitat completa. No hi ha places disponibles ni espai a la llista d'espera.");
+            return false;
+        }
+        
+        // 5. Añadir la inscripción
+        boolean inscripcioExitosa = llistaInscripcions.afegirInscripcio(nomParticipant, tipusUsuari, dataActual);
+        
+        if (inscripcioExitosa) {
+            String tipusInscripcio = (llistaInscripcions.getNumInscripcions() <= llistaInscripcions.getPlacesMaximes()) ? 
+                                     "inscrit" : "a la llista d'espera";
+            System.out.println("ÈXIT: " + nomParticipant + " s'ha " + tipusInscripcio + 
+                             " correctament a l'activitat '" + nom + "'.");
+            return true;
+        } else {
+            System.out.println("ERROR: No s'ha pogut completar la inscripció.");
+            return false;
+        }
+    }
+
+    
     @Override
     public String toString() {
         return "Activitat [nom=" + nom + ", colectius=" + colectius.toString() + ", dataIniciInscripcio="

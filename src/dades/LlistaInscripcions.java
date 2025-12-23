@@ -67,4 +67,24 @@ public class LlistaInscripcions {
             System.out.println("Index invàlid");
         }
     }
+   
+    public inscripcions getInscripcioPerNom(String nomParticipant) {
+    for (int i = 0; i < numInscripcions; i++) {
+        if (LlistaIncripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
+            return LlistaIncripcions[i];
+        }
+    }
+    return null;
+}
+
+    public boolean estaInscrit(String nomParticipant) {
+        for (int i = 0; i < numInscripcions; i++) {
+            if (LlistaIncripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
 }
