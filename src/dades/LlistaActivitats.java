@@ -91,17 +91,18 @@ public class LlistaActivitats  {
     public void mostrarActivitatsDisponibles(LocalDate dataSimulacio) {
         System.out.println("--- ACTIVITATS EN PERÍODE D'INSCRIPCIÓ I AMB PLACES (" + dataSimulacio + ") ---");
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
         boolean algunaTrobada = false;
 
         for (int i = 0; i < nElems; i++) {
             Activitat act = llista[i];
             if (act.hihaPlaces()) {
                 try {
+
                     // 2. Control de dates (Període d'inscripció) 
-                    LocalDate iniciInscripcio = LocalDate.parse(act.getDataIniciInscripcio(), formatter);
-                    LocalDate fiInscripcio = LocalDate.parse(act.getDataFinalInscripcio(), formatter);
+
+
+                    LocalDate iniciInscripcio = act.getDataIniciInscripcio();
+                    LocalDate fiInscripcio = act.getDataFinalInscripcio();
 
                     // Comprovem si dataSimulacio està dins el rang [inici, final]
                     boolean dinsPeriode = !dataSimulacio.isBefore(iniciInscripcio) && !dataSimulacio.isAfter(fiInscripcio);
@@ -119,6 +120,25 @@ public class LlistaActivitats  {
 
         if (!algunaTrobada) {
             System.out.println("No s'han trobat activitats disponibles en aquesta data.");
+        }
+    }
+
+
+    //TASCA 6 mostrar activitats amb placçes disponibles
+    public void mostrarActivitatsAmbPlaces() {
+        System.out.println("--- ACTIVITATS AMB PLACES DISPONIBLES ---");
+        boolean algunaTrobada = false;
+
+        for (int i = 0; i < nElems; i++) {
+            Activitat act = llista[i];
+            if (act.hihaPlaces()) {
+                System.out.println(act.toString());
+                algunaTrobada = true;
+            }
+        }
+
+        if (!algunaTrobada) {
+            System.out.println("No hi ha activitats amb places disponibles.");
         }
     }
     

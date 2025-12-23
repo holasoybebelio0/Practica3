@@ -1,9 +1,12 @@
 package dades;
 
+import java.time.LocalDate;
+
+
 public class ActivitatPeriodica extends Activitat{
     private String diaSetmana; 
     private String horari; 
-    private String dataInici; 
+    private LocalDate dataInici; 
     private int nSetmanes;
     private int places;
     private double preu; 
@@ -12,7 +15,7 @@ public class ActivitatPeriodica extends Activitat{
 
     private int nInscrits; // Número d'inscrits per a verificar si hi queden places.
 
-    public ActivitatPeriodica (String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, String diaSetmana, String horari, String dataInici, int nSetmanes, int places, double preu, String nomCentre, String ciutat) {
+    public ActivitatPeriodica (String nom, String[] colectius, LocalDate dataIniciInscripcio, LocalDate dataFinalInscripcio, String diaSetmana, String horari, LocalDate dataInici, int nSetmanes, int places, double preu, String nomCentre, String ciutat) {
         super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio, places);
         this.diaSetmana = diaSetmana;
         this.horari = horari;
@@ -42,11 +45,11 @@ public class ActivitatPeriodica extends Activitat{
         this.horari = horari;
     }
 
-    public String getDataInici() {
+    public LocalDate getDataInici() {
         return dataInici;
     }
 
-    public void setDataInici(String dataInici) {
+    public void setDataInici(LocalDate dataInici) {
         this.dataInici = dataInici;
     }
 
@@ -138,5 +141,16 @@ public class ActivitatPeriodica extends Activitat{
     public int getTipus() {
         return 2;
     }
+    public boolean esActiva(LocalDate dataObjectiu) {
+        try {
+            LocalDate fi = dataInici.plusWeeks(this.getnSetmanes());
+            
+            // Comprovem si la dataObjectiu està dins del rang
+            return !dataObjectiu.isBefore(dataInici) && !dataObjectiu.isAfter(fi);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     
 }

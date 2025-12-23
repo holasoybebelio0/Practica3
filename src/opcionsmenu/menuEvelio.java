@@ -1,6 +1,7 @@
 package opcionsmenu;
 
-import dades.*; // Importem les classes (LlistaUsuaris, PDI, PTGAS, etc.)
+import dades.*;// Importem les classes (LlistaUsuaris, PDI, PTGAS, etc.)
+import dades.usuaris.*;
 import java.time.LocalDate;
 
 public class menuEvelio {
@@ -26,7 +27,9 @@ public class menuEvelio {
         // Opcional: Mostrem els usuaris que hem creat
         System.out.println(llistaUsuaris.toString());
 
-
+        // ==========================================
+        // 2. GESTIÓ D'ACTIVITATS
+        // ==========================================
         // ==========================================
         // 2. GESTIÓ D'ACTIVITATS
         // ==========================================
@@ -34,38 +37,44 @@ public class menuEvelio {
         // Crear la llista d'activitats
         LlistaActivitats laMevaLlista = new LlistaActivitats(10);
 
-        // Definim els col·lectius basant-nos en els usuaris que tenim (PDI, PTGAS, etc.)
+        // Definim els col·lectius
         String[] colPDI = {"PDI"};
         String[] colTots = {"PDI", "PTGAS"};
 
-        // ACTIVITAT A: Futbol (Per a PDI i PTGAS). Periodo 2024.
+        // ACTIVITAT A: Futbol
+        // CORRECCIÓ: Fem servir LocalDate.parse() per convertir el text a data real
         ActivitatPeriodica futbol = new ActivitatPeriodica(
             "Futbol Sala", colTots, 
-            "2024-01-01", "2024-03-31", // Inscripció tancada
-            "Dilluns", "18:00", "2024-04-01", 10, 
+            LocalDate.parse("2024-01-01"), LocalDate.parse("2024-03-31"), // Dates inscripció
+            "Dilluns", "18:00", LocalDate.parse("2024-04-01"), 10,        // Data inici activitat
             20, 50.0, "Poliesportiu", "Barcelona"
         );
 
-        // ACTIVITAT B: Basket (Només PDI). Periodo 2024-2026.
+        // ACTIVITAT B: Basket
         ActivitatPeriodica basket = new ActivitatPeriodica(
             "Basket Pro", colPDI, 
-            "2024-01-01", "2025-12-31", // Inscripció oberta
-            "Dimarts", "19:00", "2026-01-09", 10, 
+            LocalDate.parse("2024-01-01"), LocalDate.parse("2025-12-31"), 
+            "Dimarts", "19:00", LocalDate.parse("2026-01-09"), 10, 
             5, 40.0, "Pavelló", "Girona"
         );
-        basket.setnInscrits(5); // Forcem que estigui PLENA (0 places lliures)
+        basket.setnInscrits(2); // Forcem que estigui PLENA (si places fos 2)
 
-        // ACTIVITAT C: Curs Java (Online, sempre hi ha lloc). Per a tothom.
+        // ACTIVITAT C: Curs Java
+        // CORRECCIÓ: Afegim els dos paràmetres que faltaven al final (Data inici i durada)
         ActivitatOnline javaCurs = new ActivitatOnline(
             "Curs Java", colTots, 
-            "2025-01-01", "2025-12-31", // Inscripció oberta
-            "http://zoom.us/java"
+            LocalDate.parse("2025-01-01"), LocalDate.parse("2025-12-31"), 
+            "http://zoom.us/java",
+            LocalDate.parse("2025-02-01"), // NOVA: Data inici activitat
+            30                             // NOVA: Durada en dies
         );
 
         // Afegim les activitats a la llista
         laMevaLlista.afegirActivitat(futbol);
         laMevaLlista.afegirActivitat(basket);
         laMevaLlista.afegirActivitat(javaCurs);
+
+        
 
 
         // ==========================================

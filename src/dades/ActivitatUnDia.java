@@ -1,14 +1,17 @@
 package dades;
 
+import java.time.LocalDate;
+
+
 public class ActivitatUnDia extends Activitat{
-    private String data;
+    private LocalDate data;
     private String ciutat; 
     private double preu; 
     private int places; 
     private String horari; 
     private int nInscrits; 
 
-    public ActivitatUnDia (String nom, String[] colectius, String dataIniciInscripcio, String dataFinalInscripcio, String data, String ciutat, double preu, int places, String horari) {
+    public ActivitatUnDia (String nom, String[] colectius, LocalDate dataIniciInscripcio, LocalDate dataFinalInscripcio, LocalDate data, String ciutat, double preu, int places, String horari) {
         super(nom, colectius, dataIniciInscripcio, dataFinalInscripcio, places);
         this.data = data;
         this.horari = horari; 
@@ -20,10 +23,10 @@ public class ActivitatUnDia extends Activitat{
 
 
     //Getters i setters
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
     public String getCiutat() {
@@ -92,6 +95,15 @@ public class ActivitatUnDia extends Activitat{
     @Override
     public int getTipus() {
         return 3;
+    }
+    
+    @Override
+    public boolean esActiva(LocalDate dataObjectiu) {
+        try {
+            return data.equals(dataObjectiu);
+        } catch (Exception e) {
+            return false;
+        }
     }
     
 }
