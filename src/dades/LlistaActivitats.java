@@ -1,7 +1,6 @@
 package dades;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
@@ -89,6 +88,7 @@ public class LlistaActivitats  {
        
 
        }
+       scanner.close();
         return dataActual;
 
     }
@@ -170,5 +170,27 @@ public class LlistaActivitats  {
         } else {
             System.out.println("No es poden afegir més usuaris, capacitat plena.");
         }
+    }
+
+    /**
+     * Elimina l'activitat que es troba a la posició indicada i desplaça les activitats restants
+     * @param index Posició de l'activitat a esborrar.
+     * @return true si s'ha esborrat, false si l'índex no era vàlid.
+     */
+    public boolean eliminarActivitat(int index) {
+        boolean trobat;
+        if (index < 0 || index >= nElems) {
+            trobat = false;
+        }
+        else{
+            for (int i = index; i < nElems - 1; i++) {
+                llista[i] = llista[i + 1];
+            }
+    
+            nElems--;
+            llista[nElems] = null;
+            trobat = true;
+        }
+        return trobat;
     }
 }

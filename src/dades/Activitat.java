@@ -8,6 +8,7 @@ public abstract class Activitat {
     protected LocalDate dataIniciInscripcio;
     protected LocalDate dataFinalInscripcio;
     protected LlistaInscripcions llistaInscripcions;
+    protected LlistaInscripcions llistaEspera;
 
     public Activitat (String nom, String[] colectius, LocalDate dataIniciInscripcio, LocalDate dataFinalInscripcio, int places) {
         this.nom = nom; 
@@ -15,6 +16,7 @@ public abstract class Activitat {
         this.dataIniciInscripcio = dataIniciInscripcio;
         this.colectius = colectius;
         this.llistaInscripcions = new LlistaInscripcions(places);
+        this.llistaEspera = new LlistaInscripcions(10);
     }
 
     public String getNom() {
@@ -49,8 +51,13 @@ public abstract class Activitat {
         this.dataFinalInscripcio = dataFinalInscripcio;
     }
 
-   
-    
+    public LlistaInscripcions getLlistaInscripcions() {
+        return llistaInscripcions;
+    }
+
+    public LlistaInscripcions getLlistaEspera() {
+        return llistaEspera;
+    }
 
     @Override
     public String toString() {
