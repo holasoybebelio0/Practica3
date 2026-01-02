@@ -42,9 +42,28 @@ public class LlistaActivitats  {
         return nElems; 
     }
 
-    public void mostrarLlista() {
-        for (int i = 0; i<nElems; i++) {
-            System.out.println(llista[i].toString());
+    public void mostrarLlista(int filtre) { // IMPLEMENTAR EN EL VALIDACIOACTIVITAT las instrucciones de lo que vale cada filtro
+        if (filtre == 0) {
+            for (int i=0; i<nElems; i++) {
+                System.out.println(llista[i].toString());
+            }
+        } else if (filtre != 0) {
+            for (int i=0; i<nElems; i++) {
+                if (llista[i].getTipus() == filtre) {
+                    System.out.println(llista[i].toString());
+                } else {
+                    System.out.println("\nError: El valor del filtre només pot ser 0, 1 o 2.");
+
+                }
+            }
+        } 
+    }
+
+    public void mostrarActivitatsClasseAvui (LocalDate dia) {
+        for (int i=0; i<nElems; i++) {
+            if (llista[i].teClasseAvui(dia)) {
+                System.out.println(llista[i].toString());
+            }
         }
     }
     /**
@@ -129,6 +148,7 @@ public class LlistaActivitats  {
             System.out.println("No hi ha activitats amb places disponibles.");
         }
     }
+
     
     //TASCA 10 Inscriures a una activitat
      public boolean inscriureUsuariActivitat(Usuari usuari, String nomActivitat, LocalDate dataActual) {
@@ -251,3 +271,29 @@ public class LlistaActivitats  {
         System.out.println("--------------------------------------------------");
     }
 }
+
+
+    public void mostrarDetallActivitatNom (String nom) {
+        boolean trobat = false;
+        for (int i=0; i<nElems; i++) {
+            if (llista[i].getNom().equalsIgnoreCase(nom)) {
+                System.out.println(llista[i].toString());
+                trobat = true;
+            }
+        }
+        if (!trobat) {
+            System.out.println("\nNo s'han trobat coincidències.");
+        }
+    }
+
+    public void afegirActivitatPeriodica (ActivitatPeriodica actperiod) {
+        if (nElems < llista.length) {
+            llista[nElems] = actperiod.copia();
+            nElems++;
+        } else {
+            System.out.println("No es poden afegir més usuaris, capacitat plena.");
+        }
+    }
+}
+
+
