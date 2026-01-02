@@ -1,13 +1,18 @@
 package dades;
 
+import java.time.LocalDate;
+
 
 public class inscripcions { 
     private String nomParticipant;
-    private String dataInscripcio; 
+    private String dataInscripcio;
+    private String tipususuari;
+    private int valoracio = -1; // Valoració de l'experiència (1-10)
 
-    public inscripcions(String nomParticipant, String dataInscripcio) {
+    public inscripcions(String nomParticipant, String tipususuari, LocalDate dataActual) {
         this.nomParticipant = nomParticipant;
-        this.dataInscripcio = dataInscripcio;
+        this.dataInscripcio = dataActual.toString();
+        this.tipususuari = tipususuari;
     }
     public String getNomParticipant() {
         return nomParticipant;
@@ -21,7 +26,7 @@ public class inscripcions {
     }   
 
     public inscripcions copia() {
-        return new inscripcions(nomParticipant, dataInscripcio);
+        return new inscripcions(nomParticipant, tipususuari, LocalDate.parse(dataInscripcio));
     }
     //SI esta llena la lista, se añade a otra lista de espera que maximo puede tener 10 personas
 
@@ -30,15 +35,23 @@ public class inscripcions {
     }
     //Al acabar la actividad los usuarios valoraran del 1-10 la experiencia
    
-    public void valorarExperiencia(int valoracio) {
-        if (valoracio < 1 || valoracio > 10) {
-            System.out.println("Valoració invàlida. Si us plau, introdueix un valor entre 1 i 10.");
+   public void valorarExperiencia(int valoracio) {
+        if (valoracio < 0 || valoracio > 10) {
+            System.out.println("Valoració invàlida (0-10).");
         } else {
-            System.out.println("Gràcies per la teva valoració de " + valoracio + "!");
+            this.valoracio = valoracio;
+            System.out.println("Valoració de " + valoracio + " registrada per " + nomParticipant);
         }
     }
 
-    //EVELIO: HE AÑADIDO ESTOS SETTERS Y GETTERS DE LAS VALORACIONES
+    public int getValoracio() {
+        return valoracio;
+    }
+
+    public String getTipusUsuari() {
+        return tipususuari;
+    }
+
     
 
 }

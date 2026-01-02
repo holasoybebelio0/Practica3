@@ -86,7 +86,7 @@ public class LlistaActivitats  {
             if (act.hihaPlaces()) {
                 try {
 
-                    // 2. Control de dates (Període d'inscripció) 
+                    //Control de dates (Període d'inscripció) 
 
 
                     LocalDate iniciInscripcio = act.getDataIniciInscripcio();
@@ -132,21 +132,21 @@ public class LlistaActivitats  {
     
     //TASCA 10 Inscriures a una activitat
      public boolean inscriureUsuariActivitat(Usuari usuari, String nomActivitat, LocalDate dataActual) {
-        // 1. Buscar la actividad
+        //Buscar la actividad
         Activitat activitat = getActivitatPerNom(nomActivitat);
         if (activitat == null) {
             System.out.println("ERROR: L'activitat '" + nomActivitat + "' no existeix.");
             return false;
         }
         
-        // 2. Verificar período de inscripción
+        //Verificar período de inscripción
         if (dataActual.isBefore(activitat.getDataIniciInscripcio()) || 
             dataActual.isAfter(activitat.getDataFinalInscripcio())) {
             System.out.println("ERROR: No estàs dins del període d'inscripció.");
             return false;
         }
         
-        // 3. Determinar tipo de usuario
+        //Determinar tipo de usuario
         String tipusUsuari = "";
         if (usuari instanceof Estudiant) {
             tipusUsuari = "Estudiant";
@@ -156,13 +156,13 @@ public class LlistaActivitats  {
             tipusUsuari = "PTGAS";
         }
         
-        // 4. Verificar si ya está inscrito
+        //Verificar si ya está inscrito
         if (activitat.estaInscrit(usuari.getAlies())) {
             System.out.println("ERROR: L'usuari ja està inscrit en aquesta activitat.");
             return false;
         }
         
-        // 5. Intentar inscribir
+        //Intentar inscribir
         boolean inscrit = activitat.afegirInscripcio(usuari.getAlies(), dataActual, tipusUsuari);
         
         if (inscrit) {
@@ -199,20 +199,20 @@ public class LlistaActivitats  {
             return;
         }
 
-        // 1. Validar puntuació (0-10) 
+        //Validar puntuació (0-10) 
         if (puntuacio < 0 || puntuacio > 10) {
             System.out.println("Error: La puntuació ha de ser entre 0 i 10.");
             return;
         }
 
-        // 2. Comprovar si l'activitat ha acabat (Necessites implementar haAcabat a Activitat)
+        //Comprovar si l'activitat ha acabat 
         // Si no has implementat haAcabat a Activitat, et donarà error aquí.
         if (!act.haacabat(dataActual)) {
             System.out.println("Error: No es pot valorar l'activitat perquè encara no ha acabat.");
             return;
         }
 
-        // 3. Comprovar si l'usuari va assistir (està a la llista d'inscripcions)
+        //Comprovar si l'usuari va assistir (està a la llista d'inscripcions)
         LlistaInscripcions llistaInscripcions = act.getLlistaInscripcions();
         inscripcions inscripcioUsuari = llistaInscripcions.getInscripcioPerNom(aliesUsuari);
 
@@ -223,5 +223,31 @@ public class LlistaActivitats  {
         } else {
             System.out.println("Error: L'usuari " + aliesUsuari + " no consta com a inscrit en aquesta activitat.");
         }
+    }
+
+    /**
+     * TASCA 19: Calcular la mitjana de valoracions per col·lectius.
+     */
+    public void mostrarMitjanaValoracions(String nomActivitat) {
+        Activitat act = getActivitatPerNom(nomActivitat);
+
+        if (act == null) {
+            System.out.println("Error: L'activitat no existeix.");
+            return;
+        }
+
+        System.out.println("--- ESTADÍSTIQUES DE VALORACIÓ PER: " + act.getNom().toUpperCase() + " ---");
+        
+        LlistaInscripcions llista = act.getLlistaInscripcions();
+        
+        
+        double mitjanaPDI = llista.calcularMitjanaPerCol("PDI");
+        double mitjanaPTGAS = llista.calcularMitjanaPerCol("PTGAS");
+        double mitjanaEst = llista.calcularMitjanaPerCol("Estudiant");
+
+        System.out.printf("Mitjana PDI:       %.2f\n", mitjanaPDI);
+        System.out.printf("Mitjana PTGAS:     %.2f\n", mitjanaPTGAS);
+        System.out.printf("Mitjana Estudiant: %.2f\n", mitjanaEst);
+        System.out.println("--------------------------------------------------");
     }
 }

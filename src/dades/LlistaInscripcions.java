@@ -21,20 +21,28 @@ public class LlistaInscripcions {
     public int getNumInscripcions() {
         return numInscripcions;
     }
-    public void afegirInscripcio(inscripcions inscripcio) {
-        if (numInscripcions < LlistaIncripcions.length) {
-            LlistaIncripcions[numInscripcions] = inscripcio;
-            numInscripcions++;
-        } else {
-            System.out.println("No es poden afegir més inscripcions, capacitat plena.");
-        }
+    
+
+// 2. AÑADE este nuevo método para que funcione la llamada desde Activitat
+// NOTA: Asegúrate de que el orden (nom, tipus, data) coincide con el constructor de tu clase 'inscripcions'
+public boolean afegirInscripcio(String nomParticipant, String tipusUsuari, java.time.LocalDate dataActual) {
+    if (numInscripcions < LlistaIncripcions.length) {
+        // Aquí creamos el objeto inscripcions dentro de la lista
+        inscripcions nova = new inscripcions(nomParticipant, tipusUsuari, dataActual);
+        LlistaIncripcions[numInscripcions] = nova;
+        numInscripcions++;
+        return true;
+    } else {
+        return false;
     }
+}
     public LlistaInscripcions copia() {
-        LlistaInscripcions llistaCopiada = new LlistaInscripcions(LlistaIncripcions.length);
+        LlistaInscripcions novaLlista = new LlistaInscripcions(LlistaIncripcions.length);
         for (int i = 0; i < numInscripcions; i++) {
-            llistaCopiada.afegirInscripcio(LlistaIncripcions[i]);
+            novaLlista.LlistaIncripcions[i] = LlistaIncripcions[i].copia();
         }
-        return llistaCopiada;
+        novaLlista.numInscripcions = numInscripcions;
+        return novaLlista;
     }
     @Override
     public String toString() {
@@ -86,5 +94,37 @@ public class LlistaInscripcions {
         return false;
     }
     
+    public boolean hihaPlaces() {
+        return numInscripcions < LlistaIncripcions.length;
+    }
 
+    public int getNumEspera() {
+        return 0;
+    }
+
+    public int getPlacesMaximes() {
+        return LlistaIncripcions.length;
+    }
+    // TASCA 19: Calcular mitjana per a un col·lectiu específic
+    public double calcularMitjanaPerCol(String tipusObjectiu) {
+        double suma = 0;
+        int comptador = 0;
+
+        for (int i = 0; i < numInscripcions; i++) {
+            inscripcions ins = LlistaIncripcions[i];
+            
+            // Comprovem si és del tipus que busquem (ignorant majúscules/minúscules)
+            // I comprovem que l'usuari hagi valorat (valoracio != -1)
+            if (ins.getTipusUsuari().equalsIgnoreCase(tipusObjectiu) && ins.getValoracio() != -1) {
+                suma += ins.getValoracio();
+                comptador++;
+            }
+        }
+
+        if (comptador > 0) {
+            return suma / comptador;
+        } else {
+            return 0.0; // Retornem 0 si ningú d'aquest grup ha valorat
+        }
+    }
 }
