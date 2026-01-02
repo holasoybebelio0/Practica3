@@ -88,6 +88,7 @@ public class LlistaActivitats  {
        
 
        }
+       scanner.close();
         return dataActual;
 
     }
@@ -151,50 +152,53 @@ public class LlistaActivitats  {
 
     
     //TASCA 10 Inscriures a una activitat
-     public boolean inscriureUsuariActivitat(Usuari usuari, String nomActivitat, LocalDate dataActual) {
-        //Buscar la actividad
-        Activitat activitat = getActivitatPerNom(nomActivitat);
-        if (activitat == null) {
-            System.out.println("ERROR: L'activitat '" + nomActivitat + "' no existeix.");
-            return false;
-        }
-        
-        //Verificar período de inscripción
-        if (dataActual.isBefore(activitat.getDataIniciInscripcio()) || 
-            dataActual.isAfter(activitat.getDataFinalInscripcio())) {
-            System.out.println("ERROR: No estàs dins del període d'inscripció.");
-            return false;
-        }
-        
-        //Determinar tipo de usuario
-        String tipusUsuari = "";
-        if (usuari instanceof Estudiant) {
-            tipusUsuari = "Estudiant";
-        } else if (usuari instanceof PDI) {
-            tipusUsuari = "PDI";
-        } else if (usuari instanceof PTGAS) {
-            tipusUsuari = "PTGAS";
-        }
-        
-        //Verificar si ya está inscrito
-        if (activitat.estaInscrit(usuari.getAlies())) {
-            System.out.println("ERROR: L'usuari ja està inscrit en aquesta activitat.");
-            return false;
-        }
-        
-        //Intentar inscribir
-        boolean inscrit = activitat.afegirInscripcio(usuari.getAlies(), dataActual, tipusUsuari);
-        
-        if (inscrit) {
-            System.out.println("SUCCESS: " + usuari.getAlies() + " inscrit correctament a " + nomActivitat);
-            return true;
-        } else {
-            System.out.println("ERROR: No s'ha pogut inscriure a " + nomActivitat + 
-                             ". Places plenes i llista d'espera completa.");
-            return false;
-        }
+    // TASCA 10 Inscriures a una activitat
+public boolean inscriureUsuariActivitat(Usuari usuari, String nomActivitat, LocalDate dataActual) {
+    //Buscar la actividad
+    Activitat activitat = getActivitatPerNom(nomActivitat);
+    if (activitat == null) {
+        System.out.println("ERROR: L'activitat '" + nomActivitat + "' no existeix.");
+        return false;
     }
-
+    
+    //Verificar período de inscripción
+    if (dataActual.isBefore(activitat.getDataIniciInscripcio()) || 
+        dataActual.isAfter(activitat.getDataFinalInscripcio())) {
+        System.out.println("ERROR: No estàs dins del període d'inscripció.");
+        return false;
+    }
+    
+    //Determinar tipo de usuario
+    String tipusUsuari = "";
+    if (usuari instanceof Estudiant) {
+        tipusUsuari = "Estudiant";
+    } else if (usuari instanceof PDI) {
+        tipusUsuari = "PDI";
+    } else if (usuari instanceof PTGAS) {
+        tipusUsuari = "PTGAS";
+    }
+    
+    //Verificar si ya está inscrito
+    if (activitat.estaInscrit(usuari.getAlies())) {
+        System.out.println("ERROR: L'usuari ja està inscrit en aquesta activitat.");
+        return false;
+    }
+    
+    // CREAR OBJETO inscripcions PRIMERO
+    inscripcions novaInscripcio = new inscripcions(usuari.getAlies(), tipusUsuari, dataActual);
+    
+    // Llamar a la nueva versión del método
+    boolean inscrit = activitat.afegirInscripcio(novaInscripcio, dataActual);
+    
+    if (inscrit) {
+        System.out.println("SUCCESS: " + usuari.getAlies() + " inscrit correctament a " + nomActivitat);
+        return true;
+    } else {
+        System.out.println("ERROR: No s'ha pogut inscriure a " + nomActivitat + 
+                         ". Places plenes i llista d'espera completa.");
+        return false;
+    }
+}
 
     //tasca 13 Afegir una nova activitat d'un dia
     public void afegirActivitatUnDia(ActivitatUnDia act) {
@@ -270,7 +274,7 @@ public class LlistaActivitats  {
         System.out.printf("Mitjana Estudiant: %.2f\n", mitjanaEst);
         System.out.println("--------------------------------------------------");
     }
-}
+
 
 
     public void mostrarDetallActivitatNom (String nom) {
@@ -294,6 +298,32 @@ public class LlistaActivitats  {
             System.out.println("No es poden afegir més usuaris, capacitat plena.");
         }
     }
-}
 
+
+
+
+
+
+    /**
+     * Elimina l'activitat que es troba a la posició indicada i desplaça les activitats restants
+     * @param index Posició de l'activitat a esborrar.
+     * @return true si s'ha esborrat, false si l'índex no era vàlid.
+     */
+    public boolean eliminarActivitat(int index) {
+        boolean trobat;
+        if (index < 0 || index >= nElems) {
+            trobat = false;
+        }
+        else{
+            for (int i = index; i < nElems - 1; i++) {
+                llista[i] = llista[i + 1];
+            }
+    
+            nElems--;
+            llista[nElems] = null;
+            trobat = true;
+        }
+        return trobat;
+    }
+}
 

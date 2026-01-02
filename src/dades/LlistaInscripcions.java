@@ -18,24 +18,27 @@ public class LlistaInscripcions {
             return null;
         }
     }   
+
     public int getNumInscripcions() {
         return numInscripcions;
     }
+
     
 
-// 2. AÑADE este nuevo método para que funcione la llamada desde Activitat
-// NOTA: Asegúrate de que el orden (nom, tipus, data) coincide con el constructor de tu clase 'inscripcions'
-public boolean afegirInscripcio(String nomParticipant, String tipusUsuari, java.time.LocalDate dataActual) {
+
+
+    public boolean afegirInscripcio(inscripcions inscripcio) {
     if (numInscripcions < LlistaIncripcions.length) {
-        // Aquí creamos el objeto inscripcions dentro de la lista
-        inscripcions nova = new inscripcions(nomParticipant, tipusUsuari, dataActual);
-        LlistaIncripcions[numInscripcions] = nova;
+        LlistaIncripcions[numInscripcions] = inscripcio;
         numInscripcions++;
         return true;
     } else {
+        System.out.println("No es poden afegir més inscripcions, capacitat plena.");
         return false;
     }
 }
+
+
     public LlistaInscripcions copia() {
         LlistaInscripcions novaLlista = new LlistaInscripcions(LlistaIncripcions.length);
         for (int i = 0; i < numInscripcions; i++) {
@@ -44,6 +47,7 @@ public boolean afegirInscripcio(String nomParticipant, String tipusUsuari, java.
         novaLlista.numInscripcions = numInscripcions;
         return novaLlista;
     }
+
     @Override
     public String toString() {
         String resultat = "Llista de "+numInscripcions+" inscripcions:\n";
@@ -52,10 +56,7 @@ public boolean afegirInscripcio(String nomParticipant, String tipusUsuari, java.
         }
         return resultat;
     }
-    public LlistaInscripcions LlistaEspera() {
-        return new LlistaInscripcions(10);
-    }   
-   
+
     public void Indicardatavui() {
         
         
@@ -75,6 +76,7 @@ public boolean afegirInscripcio(String nomParticipant, String tipusUsuari, java.
             System.out.println("Index invàlid");
         }
     }
+
    
     public inscripcions getInscripcioPerNom(String nomParticipant) {
     for (int i = 0; i < numInscripcions; i++) {
@@ -127,4 +129,62 @@ public boolean afegirInscripcio(String nomParticipant, String tipusUsuari, java.
             return 0.0; // Retornem 0 si ningú d'aquest grup ha valorat
         }
     }
+
+
+    /**
+     * Elimina una inscripció per nom.
+     * @param nom
+     * @return true si s'ha eliminat l'inscripció, false si no s'ha trobat.
+     */
+    public boolean eliminarInscripcio(String nom) {
+        int pos = -1;
+        int i = 0;
+
+        while (i < numInscripcions && pos == -1) {
+            if (LlistaIncripcions[i].getNomParticipant().equalsIgnoreCase(nom)) {
+                pos = i;
+            }
+            i++;
+        }
+
+        if (pos == -1) {
+            return false;
+        }
+
+        for (i = pos; i < numInscripcions - 1; i++) {
+            LlistaIncripcions[i] = LlistaIncripcions[i + 1];
+        }
+        
+        LlistaIncripcions[numInscripcions - 1] = null;
+        numInscripcions--;
+        
+        return true;
+    }
+
+
+    /**
+     * Treu i retorna la primera inscripció de la llista (funcio per la llista d'espera).
+     * @return La primera inscripció o null si la llista està buida.
+     */
+    public inscripcions treurePrimer() {
+
+        if (numInscripcions == 0) {
+            return null;
+        }
+        else{
+            inscripcions primer = LlistaIncripcions[0];
+            
+            for (int i = 0; i < numInscripcions - 1; i++) {
+                LlistaIncripcions[i] = LlistaIncripcions[i + 1];
+            }
+            
+            LlistaIncripcions[numInscripcions - 1] = null;
+            numInscripcions--;
+            
+            return primer;
+        }
+        
+    }
+
+
 }

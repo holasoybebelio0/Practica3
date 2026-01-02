@@ -185,6 +185,8 @@ public class ValidacioActivitat{
             "Gimnàs URV",       // centre
             "Tarragona"              // ciutat
         );
+        
+        System.out.println("\n14. Afegir activitat periódica\n");
         llista.afegirActivitatPeriodica(futbol);
         System.out.println("\n"+futbol);
         System.out.println("\n==================================================");
