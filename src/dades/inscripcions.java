@@ -1,15 +1,20 @@
 package dades;
 
+import java.time.LocalDate;
+
 
 public class inscripcions { 
     private String nomParticipant;
-    private String dataInscripcio; 
-    private int valoracio; // codi d'error, no hi han hagut inscipcions
+    private String dataInscripcio;
+    private String tipususuari;
+    private int valoracio = -1; // Valoració de l'experiència (1-10)
 
-    public inscripcions(String nomParticipant, String dataInscripcio) {
+
+    public inscripcions(String nomParticipant, String tipususuari, LocalDate dataActual) {
         this.nomParticipant = nomParticipant;
-        this.dataInscripcio = dataInscripcio;
-        this.valoracio = -1;
+        this.dataInscripcio = dataActual.toString();
+        this.valoracio = -1; // Inicialment sense valoració
+        this.tipususuari = tipususuari;
     }
     public String getNomParticipant() {
         return nomParticipant;
@@ -26,7 +31,11 @@ public class inscripcions {
     }   
 
     public inscripcions copia() {
-        return new inscripcions(nomParticipant, dataInscripcio);
+
+        inscripcions inscopia = new inscripcions(nomParticipant, tipususuari, LocalDate.parse(dataInscripcio));
+        if (this.valoracio != -1) inscopia.valorarExperiencia(this.valoracio);
+        return inscopia;
+
     }
     //SI esta llena la lista, se añade a otra lista de espera que maximo puede tener 10 personas
 
@@ -35,12 +44,21 @@ public class inscripcions {
     }
     //Al acabar la actividad los usuarios valoraran del 1-10 la experiencia
    
-    public void valorarExperiencia(int valoracio) {
-        if (valoracio < 1 || valoracio > 10) {
-            System.out.println("Valoració invàlida. Si us plau, introdueix un valor entre 1 i 10.");
+   public void valorarExperiencia(int valoracio) {
+        if (valoracio < 0 || valoracio > 10) {
+            System.out.println("Valoració invàlida (0-10).");
         } else {
-            System.out.println("Gràcies per la teva valoració de " + valoracio + "!");
+
+            this.valoracio = valoracio;
+            System.out.println("Valoració de " + valoracio + " registrada per " + nomParticipant);
+
         }
     }
+
+    public String getTipusUsuari() {
+        return tipususuari;
+    }
+
+    
 
 }

@@ -1,6 +1,6 @@
 package dades.usuaris;
 
- abstract class Usuari {
+ public abstract class Usuari {
     private String alies;
     private String correu;
 

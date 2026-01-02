@@ -1,7 +1,6 @@
 package dades;
-
+import dades.usuaris.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
@@ -89,6 +88,7 @@ public class LlistaActivitats  {
        
 
        }
+       scanner.close();
         return dataActual;
 
     }
@@ -106,7 +106,7 @@ public class LlistaActivitats  {
             if (act.hihaPlaces()) {
                 try {
 
-                    // 2. Control de dates (Període d'inscripció) 
+                    //Control de dates (Període d'inscripció) 
 
 
                     LocalDate iniciInscripcio = act.getDataIniciInscripcio();
@@ -149,6 +149,133 @@ public class LlistaActivitats  {
             System.out.println("No hi ha activitats amb places disponibles.");
         }
     }
+
+    
+    //TASCA 10 Inscriures a una activitat
+    // TASCA 10 Inscriures a una activitat
+public boolean inscriureUsuariActivitat(Usuari usuari, String nomActivitat, LocalDate dataActual) {
+    //Buscar la actividad
+    Activitat activitat = getActivitatPerNom(nomActivitat);
+    if (activitat == null) {
+        System.out.println("ERROR: L'activitat '" + nomActivitat + "' no existeix.");
+        return false;
+    }
+    
+    //Verificar período de inscripción
+    if (dataActual.isBefore(activitat.getDataIniciInscripcio()) || 
+        dataActual.isAfter(activitat.getDataFinalInscripcio())) {
+        System.out.println("ERROR: No estàs dins del període d'inscripció.");
+        return false;
+    }
+    
+    //Determinar tipo de usuario
+    String tipusUsuari = "";
+    if (usuari instanceof Estudiant) {
+        tipusUsuari = "Estudiant";
+    } else if (usuari instanceof PDI) {
+        tipusUsuari = "PDI";
+    } else if (usuari instanceof PTGAS) {
+        tipusUsuari = "PTGAS";
+    }
+    
+    //Verificar si ya está inscrito
+    if (activitat.estaInscrit(usuari.getAlies())) {
+        System.out.println("ERROR: L'usuari ja està inscrit en aquesta activitat.");
+        return false;
+    }
+    
+    // CREAR OBJETO inscripcions PRIMERO
+    inscripcions novaInscripcio = new inscripcions(usuari.getAlies(), tipusUsuari, dataActual);
+    
+    // Llamar a la nueva versión del método
+    boolean inscrit = activitat.afegirInscripcio(novaInscripcio, dataActual);
+    
+    if (inscrit) {
+        System.out.println("SUCCESS: " + usuari.getAlies() + " inscrit correctament a " + nomActivitat);
+        return true;
+    } else {
+        System.out.println("ERROR: No s'ha pogut inscriure a " + nomActivitat + 
+                         ". Places plenes i llista d'espera completa.");
+        return false;
+    }
+}
+
+    //tasca 13 Afegir una nova activitat d'un dia
+    public void afegirActivitatUnDia(ActivitatUnDia act) {
+        if (nElems < llista.length) {
+            llista[nElems] = act;
+            nElems++;
+            System.out.println("Activitat d'un dia afegida correctament: " + act.getNom());
+        } else {
+            System.out.println("Error: La llista és plena i no es pot afegir més activitats.");
+        }
+    }
+
+ /**
+     * TASCA 16: Valorar una activitat per part d'un assistent.
+     * Requisits: L'activitat ha d'haver acabat i l'usuari hi ha d'haver assistit.
+     */
+    public void valorarActivitat(String nomActivitat, String aliesUsuari, int puntuacio, LocalDate dataActual) {
+        Activitat act = getActivitatPerNom(nomActivitat);
+
+        if (act == null) {
+            System.out.println("Error: L'activitat " + nomActivitat + " no existeix.");
+            return;
+        }
+
+        //Validar puntuació (0-10) 
+        if (puntuacio < 0 || puntuacio > 10) {
+            System.out.println("Error: La puntuació ha de ser entre 0 i 10.");
+            return;
+        }
+
+        //Comprovar si l'activitat ha acabat 
+        // Si no has implementat haAcabat a Activitat, et donarà error aquí.
+        if (!act.haacabat(dataActual)) {
+            System.out.println("Error: No es pot valorar l'activitat perquè encara no ha acabat.");
+            return;
+        }
+
+        //Comprovar si l'usuari va assistir (està a la llista d'inscripcions)
+        LlistaInscripcions llistaInscripcions = act.getLlistaInscripcions();
+        inscripcions inscripcioUsuari = llistaInscripcions.getInscripcioPerNom(aliesUsuari);
+
+        if (inscripcioUsuari != null) {
+            // Guardem la valoració a l'objecte inscripció
+            inscripcioUsuari.valorarExperiencia(puntuacio);
+            System.out.println("Valoració registrada correctament: Usuari " + aliesUsuari + " -> " + puntuacio + " punts.");
+        } else {
+            System.out.println("Error: L'usuari " + aliesUsuari + " no consta com a inscrit en aquesta activitat.");
+        }
+    }
+
+    /**
+     * TASCA 19: Calcular la mitjana de valoracions per col·lectius.
+     */
+    public void mostrarMitjanaValoracions(String nomActivitat) {
+        Activitat act = getActivitatPerNom(nomActivitat);
+
+        if (act == null) {
+            System.out.println("Error: L'activitat no existeix.");
+            return;
+        }
+
+        System.out.println("--- ESTADÍSTIQUES DE VALORACIÓ PER: " + act.getNom().toUpperCase() + " ---");
+        
+        LlistaInscripcions llista = act.getLlistaInscripcions();
+        
+        
+        double mitjanaPDI = llista.calcularMitjanaPerCol("PDI");
+        double mitjanaPTGAS = llista.calcularMitjanaPerCol("PTGAS");
+        double mitjanaEst = llista.calcularMitjanaPerCol("Estudiant");
+
+        System.out.printf("Mitjana PDI:       %.2f\n", mitjanaPDI);
+        System.out.printf("Mitjana PTGAS:     %.2f\n", mitjanaPTGAS);
+        System.out.printf("Mitjana Estudiant: %.2f\n", mitjanaEst);
+        System.out.println("--------------------------------------------------");
+    }
+
+
 
     public void mostrarDetallActivitatNom (String nom) {
         boolean trobat = false;
@@ -193,4 +320,27 @@ public class LlistaActivitats  {
             System.out.println("En la data "+date+" no s'han acabat les activitats, o no hi han.");
         }
     }
+    
+    /**
+     * Elimina l'activitat que es troba a la posició indicada i desplaça les activitats restants
+     * @param index Posició de l'activitat a esborrar.
+     * @return true si s'ha esborrat, false si l'índex no era vàlid.
+     */
+    public boolean eliminarActivitat(int index) {
+        boolean trobat;
+        if (index < 0 || index >= nElems) {
+            trobat = false;
+        }
+        else{
+            for (int i = index; i < nElems - 1; i++) {
+                llista[i] = llista[i + 1];
+            }
+    
+            nElems--;
+            llista[nElems] = null;
+            trobat = true;
+        }
+        return trobat;
+    }
 }
+
