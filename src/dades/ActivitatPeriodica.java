@@ -152,6 +152,7 @@ public class ActivitatPeriodica extends Activitat{
         }
     }
 
+    @Override
     public boolean teClasseAvui(LocalDate dia) {
         String diaAvui = "";
         switch (dia.getDayOfWeek()) {
@@ -166,4 +167,13 @@ public class ActivitatPeriodica extends Activitat{
         return diaSetmana.equalsIgnoreCase(diaAvui);
     }
     
+    
+    @Override
+    public boolean haAcabat(LocalDate avui) {
+        if (dataInici == null || avui == null) return false;
+        
+        LocalDate fi = dataInici.plusWeeks(this.nSetmanes);
+        // Ha acabat si avui és posterior a la data final
+        return avui.isAfter(fi);
+    }
 }

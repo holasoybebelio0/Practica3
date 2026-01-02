@@ -58,5 +58,8 @@ public class ValidacioInscripcions {
         LlistaInscripcions espera = miLista.LlistaEspera();
         System.out.println("S'ha creat una llista d'espera amb capacitat per a 10 (està buida):");
         System.out.println(espera.toString());
+
+        
+        
     }
 }

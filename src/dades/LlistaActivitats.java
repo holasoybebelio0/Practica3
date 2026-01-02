@@ -171,4 +171,26 @@ public class LlistaActivitats  {
             System.out.println("No es poden afegir més usuaris, capacitat plena.");
         }
     }
+
+    public void mostrarActivitatsUsuari (String nom) {
+        for (int i = 0; i<nElems; i++) {
+            if (llista[i].conteUsuari(nom)) {
+                System.out.println(llista[i].toString());
+            }
+        }
+    }
+
+    public void mostrarResumActivitatAcabada (LocalDate date) {
+        boolean acabada = false; 
+        for (int i=0; i<nElems; i++) {
+            if (llista[i].haAcabat(date)) {
+                System.out.println(" - " + llista[i].mitjanaValoracions());
+                acabada = true;
+            }
+        }
+
+        if (!acabada) {
+            System.out.println("En la data "+date+" no s'han acabat les activitats, o no hi han.");
+        }
+    }
 }

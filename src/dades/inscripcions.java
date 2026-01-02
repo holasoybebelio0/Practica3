@@ -4,16 +4,21 @@ package dades;
 public class inscripcions { 
     private String nomParticipant;
     private String dataInscripcio; 
+    private int valoracio; // codi d'error, no hi han hagut inscipcions
 
     public inscripcions(String nomParticipant, String dataInscripcio) {
         this.nomParticipant = nomParticipant;
         this.dataInscripcio = dataInscripcio;
+        this.valoracio = -1;
     }
     public String getNomParticipant() {
         return nomParticipant;
     }
     public String getDataInscripcio() {
         return dataInscripcio;
+    }
+    public int getValoracio()  {
+        return valoracio;
     }
     @Override
     public String toString() {

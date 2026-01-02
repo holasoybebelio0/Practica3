@@ -189,6 +189,14 @@ public class ValidacioActivitat{
         System.out.println("\n14. Afegir activitat periódica\n");
         llista.afegirActivitatPeriodica(futbol);
         System.out.println("\n"+futbol);
+
+        // 9. MOSTRAR ACTIVITATS EN LES QUE ESTÀ INSCRIT UN USUARI 
+        // ENCARA NO ES POT PROBAR PER QUÈ NO HEM FET LA FUNCIÓ PER INSCRIURE ALS USUARIS
+        System.out.println("\n9. Mostrar activitats en les que està inscrit un usuari\n");
+        llista.mostrarActivitatsUsuari("Fred");
+
+        System.out.println("\n17. Mostrar el resum de valoracions d'una activitat acabada\n");
+        llista.mostrarResumActivitatAcabada(LocalDate.of(2026, 9, 12));
         System.out.println("\n==================================================");
         System.out.println("            FI DE LES PROVES - RESULTAT           ");
         System.out.println("==================================================");

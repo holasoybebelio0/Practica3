@@ -49,8 +49,13 @@ public abstract class Activitat {
         this.dataFinalInscripcio = dataFinalInscripcio;
     }
 
-   
+    public boolean conteUsuari (String nom) {
+        return llistaInscripcions.conteUsuari(nom);
+    }
     
+    public double mitjanaValoracions () {
+        return llistaInscripcions.mitjanaValoracions();
+    }
 
     @Override
     public String toString() {
@@ -69,4 +74,6 @@ public abstract class Activitat {
     public abstract boolean esActiva(LocalDate dataObjectiu);
 
     public abstract boolean teClasseAvui(LocalDate dia);
+
+    public abstract boolean haAcabat(LocalDate dia);
 }
