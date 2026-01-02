@@ -60,7 +60,9 @@ public class menuEvelio {
             "zoom.us", LocalDate.now().minusMonths(1), 30 // Ja ha acabat
         );
         // Inscrivim a JGarcia manualment al curs de Java per poder valorar-lo després
-        javaCurs.afegirInscripcio("JGarcia", LocalDate.now().minusMonths(1), "PDI");
+        // NOTA: Cambiado para usar el nuevo método
+        inscripcions inscripcioJava = new inscripcions("JGarcia", "PDI", LocalDate.now().minusMonths(1));
+        javaCurs.afegirInscripcio(inscripcioJava, LocalDate.now().minusMonths(1));
 
         laMevaLlista.afegirActivitat(futbol);
         laMevaLlista.afegirActivitat(basket);
@@ -84,6 +86,7 @@ public class menuEvelio {
             System.out.println("10. [Tasca 10] Inscriure usuari a activitat");
             System.out.println("13. [Tasca 13] Afegir nova Activitat d'Un Dia");
             System.out.println("16. [Tasca 16] Valorar una activitat (ha d'haver acabat)");
+            System.out.println("19. [Tasca 19] Mostrar mitjana de valoracions per col·lectius");
             System.out.println("0.  Sortir");
             System.out.print("Escull una opció: ");
 
@@ -189,7 +192,7 @@ public class menuEvelio {
                 
                 case 19: // TASCA 19
                     System.out.println("\n--- TASCA 19: MITJANES PER COL·LECTIU ---");
-                    System.out.print("Introdueix el nom de l'activitat (Prova amb 'Curs Java'): ");
+                    System.out.print("Introdueix el nom de l'activitat (Prova amb 'Java'): ");
                     String nomActivitat = scanner.nextLine();
                     laMevaLlista.mostrarMitjanaValoracions(nomActivitat);
                     break;
