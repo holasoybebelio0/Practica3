@@ -2,10 +2,9 @@ package aplicacio;
 
 import dades.*;
 import dades.usuaris.*;
-import opcionsmenu.menuAran;
-
 import java.time.LocalDate;
 import java.util.Scanner;
+import opcionsmenu.menuAran;
 
 public class TestMenuAran {
 
@@ -186,7 +185,7 @@ public class TestMenuAran {
 
     private static void inscriureUsuari(Activitat act, String alies, int valoracio) {
         // Creem la inscripció
-        inscripcions ins = new inscripcions(alies, LocalDate.now().toString());
+        inscripcions ins = new inscripcions(alies, "", LocalDate.now());
         
         // Si té valoració, la posem
         if (valoracio != -1) {
