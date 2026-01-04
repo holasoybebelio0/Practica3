@@ -2,7 +2,7 @@ package aplicacio;
 
 import dades.*;
 import dades.usuaris.*;
-import opcionsmenu.menuAran;
+import opcionsmenu.*;
 
 import java.util.Scanner;
 
