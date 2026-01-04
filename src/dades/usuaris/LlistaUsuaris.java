@@ -67,7 +67,6 @@ public class LlistaUsuaris {
     /**
      * Guarda la llista d'usuaris en un fitxer de text.
      * @param fitxer Nom del fitxer on es guardaran els usuaris.
-     * @throws IOException 
      */
     public void guardarUsuarisFitxer(String fitxer) {
         try{

@@ -25,7 +25,6 @@ public class ValidacioUsuaris{
 
         //VALIDACIO LLISTAUSUARIS (ARAN)
 
-        
         prova4.afegirUsuari(prova1);
         prova4.afegirUsuari(prova2);
         prova4.afegirUsuari(prova3);
