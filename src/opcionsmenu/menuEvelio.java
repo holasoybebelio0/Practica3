@@ -87,7 +87,7 @@ public class menuEvelio {
             System.out.println("13. [Tasca 13] Afegir nova Activitat d'Un Dia");
             System.out.println("16. [Tasca 16] Valorar una activitat (ha d'haver acabat)");
             System.out.println("19. [Tasca 19] Mostrar mitjana de valoracions per col·lectius");
-            System.out.println("22. [Extra]    Guardar/Carregar Llista d'una Activitat REAL");
+            System.out.println("22. [Extra]    Guardar TOTES les inscripcions en fitxer serialitzat");
             System.out.println("0.  Sortir");
             System.out.print("Escull una opció: ");
 
@@ -190,42 +190,45 @@ public class menuEvelio {
                     laMevaLlista.mostrarMitjanaValoracions(nomActivitat);
                     break;
 
-                case 22: // --- CANVI IMPORTANT AQUÍ ---
-                    System.out.println("\n--- PERSISTÈNCIA: GUARDAR/CARREGAR INSCRIPCIONS REALS ---");
-                    System.out.println("Aquesta opció guardarà les inscripcions ACTUALS d'una activitat que triïs.");
+                case 22: 
+                    System.out.println("\n--- TASCA EXTRA: GUARDAR TOTES LES INSCRIPCIONS EN UN FITXER ---");
                     
-                    System.out.print("Introdueix el nom de l'activitat (ex: Futbol): ");
-                    String nomActSave = scanner.nextLine();
-                    
-                    // 1. Busquem l'activitat REAL a la llista
-                    Activitat actSave = laMevaLlista.getActivitatPerNom(nomActSave);
+                    // 1. Creem una llista gran per guardar-ho tot
+                    LlistaInscripcions llistaGlobal = new LlistaInscripcions(100);
+                    int totalAfegits = 0;
 
-                    if (actSave != null) {
-                        // 2. Obtenim la seva llista d'inscripcions REAL
-                        LlistaInscripcions llistaRe = actSave.getLlistaInscripcions();
+                    // 2. Recorrem totes les activitats i acumulem les inscripcions
+                    System.out.println("Recopilant inscripcions de totes les activitats...");
+                    for (int i = 0; i < laMevaLlista.getnElems(); i++) {
+                        Activitat actActual = laMevaLlista.getActivitat(i);
+                        LlistaInscripcions inscripcionsAct = actActual.getLlistaInscripcions();
                         
-                        // Creem un nom de fitxer únic per a aquesta activitat
-                        String fitxer = nomActSave + "_inscripcions.dat";
-
-                        try {
-                            // 3. Guardem
-                            System.out.println("Guardant inscripcions de '" + nomActSave + "' a " + fitxer + "...");
-                            llistaRe.guardarLlistaSerialitzada(fitxer);
-
-                            // 4. Verificació immediata: Carreguem el fitxer per demostrar que hi ha el que has posat
-                            System.out.println("\n[VERIFICACIÓ] Llegint el fitxer que acabem de crear...");
-                            LlistaInscripcions recuperada = LlistaInscripcions.carregarLlistaSerialitzada(fitxer);
-                            
-                            System.out.println("CONTINGUT DEL FITXER '" + fitxer + "':");
-                            System.out.println(recuperada.toString());
-                            System.out.println("(Si veus aquí els usuaris que has afegit abans, funciona perfectament).");
-
-                        } catch (Exception e) {
-                            System.out.println("[ERROR] " + e.getMessage());
-                            e.printStackTrace();
+                        if (inscripcionsAct != null && inscripcionsAct.getNumInscripcions() > 0) {
+                            for(int j=0; j < inscripcionsAct.getNumInscripcions(); j++) {
+                                inscripcions insc = inscripcionsAct.getInscripcio(j);
+                                // Copiem la inscripció a la llista global
+                                llistaGlobal.afegirInscripcio(insc.copia());
+                                totalAfegits++;
+                            }
                         }
-                    } else {
-                        System.out.println("Error: No s'ha trobat l'activitat '" + nomActSave + "'.");
+                    }
+                    System.out.println("-> S'han trobat " + totalAfegits + " inscripcions en total.");
+
+                    // 3. Guardem al fitxer serialitzat
+                    String nomFitxerGlobal = "totes_inscripcions.dat";
+                    try {
+                        System.out.println("Generant fitxer serialitzat '" + nomFitxerGlobal + "'...");
+                        llistaGlobal.guardarLlistaSerialitzada(nomFitxerGlobal);
+                        
+                        // 4. Verificació (Llegir i mostrar)
+                        System.out.println("\n[VERIFICACIÓ] Llegint el fitxer que acabem de crear...");
+                        LlistaInscripcions recuperadaGlobal = LlistaInscripcions.carregarLlistaSerialitzada(nomFitxerGlobal);
+                        System.out.println("CONTINGUT DEL FITXER:");
+                        System.out.println(recuperadaGlobal.toString());
+                        
+                    } catch (Exception e) {
+                        System.out.println("Error guardant/carregant: " + e.getMessage());
+                        e.printStackTrace();
                     }
                     break;
 
