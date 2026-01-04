@@ -1,9 +1,9 @@
 package dades;
 
+import java.io.Serializable; // <--- IMPRESCINDIBLE
 import java.time.LocalDate;
 
-
-public class inscripcions { 
+public class inscripcions implements Serializable{
     private String nomParticipant;
     private String dataInscripcio;
     private String tipususuari;

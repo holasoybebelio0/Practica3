@@ -13,7 +13,7 @@ public class menuEvelio {
 
         System.out.println("--- INICIALITZANT DADES DE PROVA ---");
 
-        //Creem llista d'usuaris i alguns usuaris
+        // 1. Creem llista d'usuaris i alguns usuaris
         LlistaUsuaris llistaUsuaris = new LlistaUsuaris(10);
         
         Usuari[] meusUsuaris = new Usuari[10];
@@ -25,7 +25,7 @@ public class menuEvelio {
         llistaUsuaris.afegirUsuari(u1);
         llistaUsuaris.afegirUsuari(u2);
         
-        // Afegim a l'array local per fer proves
+        // Afegim a l'array local per fer proves ràpides al menú
         meusUsuaris[0] = u1;
         meusUsuaris[1] = u2;
 
@@ -36,31 +36,31 @@ public class menuEvelio {
         String[] colTots = {"PDI", "PTGAS"};
         String[] colPDI = {"PDI"};
 
-        // Activitat 1: Futbol (Periodica) - Ja activa
+        // Activitat 1: Futbol
         ActivitatPeriodica futbol = new ActivitatPeriodica(
             "Futbol", colTots, 
-            LocalDate.now().minusDays(10), LocalDate.now().plusDays(10), // Inscripció oberta
+            LocalDate.now().minusDays(10), LocalDate.now().plusDays(10), 
             "Dilluns", "18:00", LocalDate.now().plusDays(5), 10, 
             20, 50.0, "Poliesportiu", "Barcelona"
         );
 
-        // Activitat 2: Basket (Periodica) - Plena (simulació)
+        // Activitat 2: Basket (Plena)
         ActivitatPeriodica basket = new ActivitatPeriodica(
             "Basket", colPDI, 
             LocalDate.now().minusDays(10), LocalDate.now().plusDays(10), 
             "Dimarts", "19:00", LocalDate.now().plusDays(5), 10, 
-            2, 40.0, "Pavelló", "Girona" // Només 2 places
+            2, 40.0, "Pavelló", "Girona"
         );
-        basket.setnInscrits(2); // Forcem que estigui plena per provar Tasca 6
+        basket.setnInscrits(2); 
 
-        // Activitat 3: Java (Online) - Passada (per provar valoracions)
+        // Activitat 3: Java (Acabada)
         ActivitatOnline javaCurs = new ActivitatOnline(
             "Java", colTots, 
             LocalDate.now().minusMonths(2), LocalDate.now().minusMonths(1), 
-            "zoom.us", LocalDate.now().minusMonths(1), 30 // Ja ha acabat
+            "zoom.us", LocalDate.now().minusMonths(1), 30 
         );
-        // Inscrivim a JGarcia manualment al curs de Java per poder valorar-lo després
-        // NOTA: Cambiado para usar el nuevo método
+        
+        // Inscripció manual inicial
         inscripcions inscripcioJava = new inscripcions("JGarcia", "PDI", LocalDate.now().minusMonths(1));
         javaCurs.afegirInscripcio(inscripcioJava, LocalDate.now().minusMonths(1));
 
@@ -87,47 +87,46 @@ public class menuEvelio {
             System.out.println("13. [Tasca 13] Afegir nova Activitat d'Un Dia");
             System.out.println("16. [Tasca 16] Valorar una activitat (ha d'haver acabat)");
             System.out.println("19. [Tasca 19] Mostrar mitjana de valoracions per col·lectius");
+            System.out.println("22. [Extra]    Guardar/Carregar Llista d'una Activitat REAL");
             System.out.println("0.  Sortir");
             System.out.print("Escull una opció: ");
 
             int opcio = -1;
             try {
-                opcio = Integer.parseInt(scanner.nextLine());
+                String input = scanner.nextLine();
+                if (input.isEmpty()) continue;
+                opcio = Integer.parseInt(input);
             } catch (NumberFormatException e) {
                 System.out.println("Error: Introdueix un número.");
                 continue;
             }
 
             switch (opcio) {
-                case 1: // TASCA 1
+                case 1: 
                     System.out.println("\n--- TASCA 1: MODIFICAR DATA ---");
-                    // Cridem al mètode de la llista que demana la nova data per teclat
                     dataSistema = laMevaLlista.moddataActual(dataSistema);
                     break;
 
-                case 3: // TASCA 3
+                case 3: 
                     System.out.println("\n--- TASCA 3: DISPONIBLES PER INSCRIPCIÓ ---");
-                    // Mostra activitats on dataSistema està dins del període d'inscripció I hi ha places
                     laMevaLlista.mostrarActivitatsDisponibles(dataSistema);
                     break;
 
-                case 6: // TASCA 6
+                case 6: 
                     System.out.println("\n--- TASCA 6: DISPONIBLES (PLACES) ---");
-                    // Mostra activitats que tenen places (ignora dates)
-                    // Hauria de sortir 'Futbol' i 'Java', però NO 'Basket' (està plena)
                     laMevaLlista.mostrarActivitatsAmbPlaces();
                     break;
 
-                case 10: // TASCA 10
+                case 10: 
                     System.out.println("\n--- TASCA 10: INSCRIURE USUARI ---");
                     System.out.println("Usuaris disponibles per prova: JGarcia, MRovira");
+                    
                     System.out.print("Introdueix l'alias de l'usuari: ");
                     String alies = scanner.nextLine();
                     
                     System.out.print("Introdueix el nom de l'activitat (ex: Futbol): ");
                     String nomAct = scanner.nextLine();
 
-                    // Busquem l'objecte usuari en el nostre array local
                     Usuari usuariTrobat = null;
                     for (Usuari u : meusUsuaris) {
                         if (u != null && u.getAlies().equalsIgnoreCase(alies)) {
@@ -143,7 +142,7 @@ public class menuEvelio {
                     }
                     break;
 
-                case 13: // TASCA 13
+                case 13: 
                     System.out.println("\n--- TASCA 13: AFEGIR ACTIVITAT UN DIA ---");
                     try {
                         System.out.print("Nom de l'activitat: ");
@@ -157,25 +156,19 @@ public class menuEvelio {
                         System.out.print("Places totals: ");
                         int places = Integer.parseInt(scanner.nextLine());
                         
-                        // Per agilitzar, posem inscripció d'avui a data activitat
                         ActivitatUnDia novaAct = new ActivitatUnDia(
                             nom, colTots, 
-                            dataSistema, data, // Període inscripció
+                            dataSistema, data, 
                             data, ciutat, preu, places, "10:00"
                         );
-                        
                         laMevaLlista.afegirActivitatUnDia(novaAct);
-                        
                     } catch (Exception e) {
                         System.out.println("Error introduint dades: " + e.getMessage());
                     }
                     break;
 
-                case 16: // TASCA 16
+                case 16: 
                     System.out.println("\n--- TASCA 16: VALORAR ACTIVITAT ---");
-                    System.out.println("NOTA: Per valorar, l'activitat ha d'haver acabat respecte a la Data Actual.");
-                    System.out.println("Suggeriment: Prova amb l'activitat 'Java' i usuari 'JGarcia'.");
-                    
                     System.out.print("Nom de l'activitat a valorar: ");
                     String nomVal = scanner.nextLine();
                     System.out.print("Alias de l'usuari: ");
@@ -190,11 +183,50 @@ public class menuEvelio {
                     }
                     break;
                 
-                case 19: // TASCA 19
+                case 19: 
                     System.out.println("\n--- TASCA 19: MITJANES PER COL·LECTIU ---");
                     System.out.print("Introdueix el nom de l'activitat (Prova amb 'Java'): ");
                     String nomActivitat = scanner.nextLine();
                     laMevaLlista.mostrarMitjanaValoracions(nomActivitat);
+                    break;
+
+                case 22: // --- CANVI IMPORTANT AQUÍ ---
+                    System.out.println("\n--- PERSISTÈNCIA: GUARDAR/CARREGAR INSCRIPCIONS REALS ---");
+                    System.out.println("Aquesta opció guardarà les inscripcions ACTUALS d'una activitat que triïs.");
+                    
+                    System.out.print("Introdueix el nom de l'activitat (ex: Futbol): ");
+                    String nomActSave = scanner.nextLine();
+                    
+                    // 1. Busquem l'activitat REAL a la llista
+                    Activitat actSave = laMevaLlista.getActivitatPerNom(nomActSave);
+
+                    if (actSave != null) {
+                        // 2. Obtenim la seva llista d'inscripcions REAL
+                        LlistaInscripcions llistaRe = actSave.getLlistaInscripcions();
+                        
+                        // Creem un nom de fitxer únic per a aquesta activitat
+                        String fitxer = nomActSave + "_inscripcions.dat";
+
+                        try {
+                            // 3. Guardem
+                            System.out.println("Guardant inscripcions de '" + nomActSave + "' a " + fitxer + "...");
+                            llistaRe.guardarLlistaSerialitzada(fitxer);
+
+                            // 4. Verificació immediata: Carreguem el fitxer per demostrar que hi ha el que has posat
+                            System.out.println("\n[VERIFICACIÓ] Llegint el fitxer que acabem de crear...");
+                            LlistaInscripcions recuperada = LlistaInscripcions.carregarLlistaSerialitzada(fitxer);
+                            
+                            System.out.println("CONTINGUT DEL FITXER '" + fitxer + "':");
+                            System.out.println(recuperada.toString());
+                            System.out.println("(Si veus aquí els usuaris que has afegit abans, funciona perfectament).");
+
+                        } catch (Exception e) {
+                            System.out.println("[ERROR] " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    } else {
+                        System.out.println("Error: No s'ha trobat l'activitat '" + nomActSave + "'.");
+                    }
                     break;
 
                 case 0:
