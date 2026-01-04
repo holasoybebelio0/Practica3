@@ -2,6 +2,7 @@ package opcionsmenu;
 
 import dades.*;
 import dades.usuaris.*;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -59,8 +60,7 @@ public class menuEvelio {
             LocalDate.now().minusMonths(2), LocalDate.now().minusMonths(1), 
             "zoom.us", LocalDate.now().minusMonths(1), 30 // Ja ha acabat
         );
-        // Inscrivim a JGarcia manualment al curs de Java per poder valorar-lo després
-        // NOTA: Cambiado para usar el nuevo método
+        // Inscrivim a JGarcia manualment al curs de Java
         inscripcions inscripcioJava = new inscripcions("JGarcia", "PDI", LocalDate.now().minusMonths(1));
         javaCurs.afegirInscripcio(inscripcioJava, LocalDate.now().minusMonths(1));
 
@@ -87,6 +87,7 @@ public class menuEvelio {
             System.out.println("13. [Tasca 13] Afegir nova Activitat d'Un Dia");
             System.out.println("16. [Tasca 16] Valorar una activitat (ha d'haver acabat)");
             System.out.println("19. [Tasca 19] Mostrar mitjana de valoracions per col·lectius");
+            System.out.println("22. [Extra]    Test Persistència (Guardar/Carregar Llista Inscripcions)");
             System.out.println("0.  Sortir");
             System.out.print("Escull una opció: ");
 
@@ -101,33 +102,30 @@ public class menuEvelio {
             switch (opcio) {
                 case 1: // TASCA 1
                     System.out.println("\n--- TASCA 1: MODIFICAR DATA ---");
-                    // Cridem al mètode de la llista que demana la nova data per teclat
                     dataSistema = laMevaLlista.moddataActual(dataSistema);
                     break;
 
                 case 3: // TASCA 3
                     System.out.println("\n--- TASCA 3: DISPONIBLES PER INSCRIPCIÓ ---");
-                    // Mostra activitats on dataSistema està dins del període d'inscripció I hi ha places
                     laMevaLlista.mostrarActivitatsDisponibles(dataSistema);
                     break;
 
                 case 6: // TASCA 6
                     System.out.println("\n--- TASCA 6: DISPONIBLES (PLACES) ---");
-                    // Mostra activitats que tenen places (ignora dates)
-                    // Hauria de sortir 'Futbol' i 'Java', però NO 'Basket' (està plena)
                     laMevaLlista.mostrarActivitatsAmbPlaces();
                     break;
 
-                case 10: // TASCA 10
+                case 10: // TASCA 10 (PROVA EXCEPCIO TERMINI)
                     System.out.println("\n--- TASCA 10: INSCRIURE USUARI ---");
                     System.out.println("Usuaris disponibles per prova: JGarcia, MRovira");
+                    System.out.println("NOTA: Si la data actual està fora de termini, saltarà 'ForaDeTerminiExcepcio'.");
+                    
                     System.out.print("Introdueix l'alias de l'usuari: ");
                     String alies = scanner.nextLine();
                     
                     System.out.print("Introdueix el nom de l'activitat (ex: Futbol): ");
                     String nomAct = scanner.nextLine();
 
-                    // Busquem l'objecte usuari en el nostre array local
                     Usuari usuariTrobat = null;
                     for (Usuari u : meusUsuaris) {
                         if (u != null && u.getAlies().equalsIgnoreCase(alies)) {
@@ -157,10 +155,9 @@ public class menuEvelio {
                         System.out.print("Places totals: ");
                         int places = Integer.parseInt(scanner.nextLine());
                         
-                        // Per agilitzar, posem inscripció d'avui a data activitat
                         ActivitatUnDia novaAct = new ActivitatUnDia(
                             nom, colTots, 
-                            dataSistema, data, // Període inscripció
+                            dataSistema, data, 
                             data, ciutat, preu, places, "10:00"
                         );
                         
@@ -171,10 +168,10 @@ public class menuEvelio {
                     }
                     break;
 
-                case 16: // TASCA 16
+                case 16: // TASCA 16 (PROVA EXCEPCIO USUARI NO INSCRIT)
                     System.out.println("\n--- TASCA 16: VALORAR ACTIVITAT ---");
-                    System.out.println("NOTA: Per valorar, l'activitat ha d'haver acabat respecte a la Data Actual.");
-                    System.out.println("Suggeriment: Prova amb l'activitat 'Java' i usuari 'JGarcia'.");
+                    System.out.println("NOTA: Per valorar, l'activitat ha d'haver acabat.");
+                    System.out.println("PROVA EXCEPCIÓ: Intenta valorar amb un usuari que NO estigui apuntat (ex: 'MRovira' a 'Java').");
                     
                     System.out.print("Nom de l'activitat a valorar: ");
                     String nomVal = scanner.nextLine();
@@ -195,6 +192,34 @@ public class menuEvelio {
                     System.out.print("Introdueix el nom de l'activitat (Prova amb 'Java'): ");
                     String nomActivitat = scanner.nextLine();
                     laMevaLlista.mostrarMitjanaValoracions(nomActivitat);
+                    break;
+
+                case 22: // TEST PERSISTÈNCIA
+                    System.out.println("\n--- TEST PERSISTÈNCIA (SERIALITZACIÓ) ---");
+                    System.out.println("1. Creant una llista d'inscripcions temporal...");
+                    LlistaInscripcions llistaTemp = new LlistaInscripcions(5);
+                    llistaTemp.afegirInscripcio(new inscripcions("TestUser1", "PDI", LocalDate.now()));
+                    llistaTemp.afegirInscripcio(new inscripcions("TestUser2", "ESTUDIANT", LocalDate.now()));
+                    System.out.println("   -> Llista creada amb 2 inscripcions.");
+
+                    String nomFitxer = "test_inscripcions.dat";
+                    try {
+                        // Guardar
+                        System.out.println("2. Guardant a '" + nomFitxer + "'...");
+                        llistaTemp.guardarLlistaSerialitzada(nomFitxer);
+
+                        // Carregar
+                        System.out.println("3. Carregant del fitxer...");
+                        LlistaInscripcions llistaRecuperada = LlistaInscripcions.carregarLlistaSerialitzada(nomFitxer);
+                        
+                        System.out.println("4. Dades recuperades:");
+                        System.out.println(llistaRecuperada.toString());
+                        System.out.println("   [OK] Persistència correcta si veus els usuaris TestUser1 i TestUser2.");
+
+                    } catch (IOException | ClassNotFoundException e) {
+                        System.out.println("   [ERROR] Problema amb la persistència: " + e.getMessage());
+                        e.printStackTrace();
+                    }
                     break;
 
                 case 0:

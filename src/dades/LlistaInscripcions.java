@@ -1,15 +1,21 @@
 package dades;
 
-public class LlistaInscripcions {
+import java.io.*; // Necessari per a la serialització i fitxers
+
+public class LlistaInscripcions implements Serializable {
+    
+    private static final long serialVersionUID = 1L; // Versión para serialización
+
     private inscripcions[] LlistaInscripcions;
     private int numInscripcions;
-    //CONSTUCTOR
+
+    // CONSTRUCTOR
     public LlistaInscripcions(int capacitat){
         LlistaInscripcions = new inscripcions[capacitat];
         numInscripcions = 0;
     }
 
-    //GETTERS I SETTERS
+    // GETTERS I SETTERS
     public inscripcions getInscripcio(int index) {
         if (index >= 0 && index < numInscripcions) {
             return LlistaInscripcions[index];
@@ -22,6 +28,7 @@ public class LlistaInscripcions {
     public int getNumInscripcions() {
         return numInscripcions;
     }
+
     public boolean afegirInscripcio(inscripcions inscripcio) {
         boolean espotafegir = false;
         if (numInscripcions < LlistaInscripcions.length) {
@@ -33,8 +40,6 @@ public class LlistaInscripcions {
         }
         return espotafegir;
     }
-
-
 
     public LlistaInscripcions copia() {
         LlistaInscripcions novaLlista = new LlistaInscripcions(LlistaInscripcions.length);
@@ -55,13 +60,9 @@ public class LlistaInscripcions {
     }
 
     public void Indicardatavui() {
-        
-        
-        
-        
+        // Mètode buit
     }
     
-
     public void setInscripcioPosicio(int posicio, inscripcions novaInscripcio){
         if (posicio >= 0 && posicio < LlistaInscripcions.length) {
             if(LlistaInscripcions[posicio] == null){
@@ -74,14 +75,15 @@ public class LlistaInscripcions {
         }
     }
 
+    // CORREGIT: Un sol return
     public boolean conteUsuari (String nom) {
-        boolean conte = false;
-        for (int i=0; i<numInscripcions; i++) {
+        boolean trobat = false;
+        for (int i=0; i < numInscripcions && !trobat; i++) {
             if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nom)) {
-                conte = true; 
+                trobat = true; 
             }
         }
-        return conte;
+        return trobat;
     }
 
     public double mitjanaValoracions() {
@@ -92,7 +94,7 @@ public class LlistaInscripcions {
         for (int i=0; i<numInscripcions; i++) {
             int valoracio = LlistaInscripcions[i].getValoracio();
             if (valoracio != -1) {
-                suma += LlistaInscripcions[i].getValoracio();
+                suma += valoracio;
                 nvaloracions++;
             }
         }
@@ -106,13 +108,13 @@ public class LlistaInscripcions {
     }
    
     public inscripcions getInscripcioPerNom(String nomParticipant) {
-    for (int i = 0; i < numInscripcions; i++) {
-        if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
-            return LlistaInscripcions[i];
+        for (int i = 0; i < numInscripcions; i++) {
+            if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
+                return LlistaInscripcions[i];
+            }
         }
+        return null;
     }
-    return null;
-}
 
     public boolean estaInscrit(String nomParticipant) {
         for (int i = 0; i < numInscripcions; i++) {
@@ -128,12 +130,16 @@ public class LlistaInscripcions {
     }
 
     public int getNumEspera() {
+        // Aquest mètode sembla retornar 0 segons el codi original, potser hauria de retornar
+        // el nombre actual de la llista, però com que aquesta classe s'usa per les dues coses,
+        // mantenim el codi original o retornem numInscripcions si fos necessari.
         return 0;
     }
 
     public int getPlacesMaximes() {
         return LlistaInscripcions.length;
     }
+
     // TASCA 19: Calcular mitjana per a un col·lectiu específic
     public double calcularMitjanaPerCol(String tipusObjectiu) {
         double suma = 0;
@@ -142,8 +148,6 @@ public class LlistaInscripcions {
         for (int i = 0; i < numInscripcions; i++) {
             inscripcions ins = LlistaInscripcions[i];
             
-            // Comprovem si és del tipus que busquem (ignorant majúscules/minúscules)
-            // I comprovem que l'usuari hagi valorat (valoracio != -1)
             if (ins.getTipusUsuari().equalsIgnoreCase(tipusObjectiu) && ins.getValoracio() != -1) {
                 suma += ins.getValoracio();
                 comptador++;
@@ -153,16 +157,10 @@ public class LlistaInscripcions {
         if (comptador > 0) {
             return suma / comptador;
         } else {
-            return 0.0; // Retornem 0 si ningú d'aquest grup ha valorat
+            return 0.0;
         }
     }
 
-
-    /**
-     * Elimina una inscripció per nom.
-     * @param nom
-     * @return true si s'ha eliminat l'inscripció, false si no s'ha trobat.
-     */
     public boolean eliminarInscripcio(String nom) {
         int pos = -1;
         int i = 0;
@@ -188,17 +186,11 @@ public class LlistaInscripcions {
         return true;
     }
 
-
-    /**
-     * Treu i retorna la primera inscripció de la llista (funcio per la llista d'espera).
-     * @return La primera inscripció o null si la llista està buida.
-     */
     public inscripcions treurePrimer() {
-
         if (numInscripcions == 0) {
             return null;
         }
-        else{
+        else {
             inscripcions primer = LlistaInscripcions[0];
             
             for (int i = 0; i < numInscripcions - 1; i++) {
@@ -210,8 +202,33 @@ public class LlistaInscripcions {
             
             return primer;
         }
-        
     }
 
+   
 
+    /**
+     * Guarda l'estat actual de la llista en un fitxer binari.
+     * @param nomFitxer Ruta del fitxer
+     * @throws IOException Si hi ha error d'escriptura
+     */
+    public void guardarLlistaSerialitzada(String nomFitxer) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nomFitxer));
+        oos.writeObject(this);
+        oos.close();
+        System.out.println("Llista d'inscripcions guardada correctament a " + nomFitxer);
+    }
+
+    /**
+     * Carrega una llista des d'un fitxer binari.
+     * @param nomFitxer Ruta del fitxer
+     * @return LlistaInscripcions recuperada
+     * @throws IOException Si hi ha error de lectura
+     * @throws ClassNotFoundException Si la classe no coincideix
+     */
+    public static LlistaInscripcions carregarLlistaSerialitzada(String nomFitxer) throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nomFitxer));
+        LlistaInscripcions llista = (LlistaInscripcions) ois.readObject();
+        ois.close();
+        return llista;
+    }
 }
