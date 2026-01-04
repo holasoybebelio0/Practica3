@@ -3,6 +3,10 @@ import dades.usuaris.*;
 
 public class ValidacioUsuaris{
     public static void main(String[] args) throws Exception {
+        LlistaUsuaris prova4 = new LlistaUsuaris(5);
+
+        prova4.carregarUsuarisFitxer("prova.txt");
+        System.out.println(prova4);
 
         //VALIDACIO PDI (ARAN)
         PDI prova1 = new PDI("Josep", "josep.garcia","DEIM", "Sescelades");
@@ -20,7 +24,7 @@ public class ValidacioUsuaris{
         System.out.println(prova3);
 
         //VALIDACIO LLISTAUSUARIS (ARAN)
-        LlistaUsuaris prova4 = new LlistaUsuaris(5);
+
         
         prova4.afegirUsuari(prova1);
         prova4.afegirUsuari(prova2);
@@ -40,6 +44,8 @@ public class ValidacioUsuaris{
         
         System.out.println("\nDetall d'un usuari segons el seu àlies (hauria de ser Fred)... \n");
         prova4.mostrarDetallUsuariNom("Fred"); // Mostrem detalls de la activitat que té per nom Taller.
+
+        prova4.guardarUsuarisFitxer("prova.txt");
 
 
     }

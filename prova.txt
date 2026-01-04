@@ -1,0 +1,5 @@
+PDI;Josep;josep.garcia;DEIM;Sescelades
+PTGAS;Marta03;ruiz.marta;Catalunya
+ESTUDIANT;evelio;evelio123;Informatica;2023
+PTGAS;Fred;ptgas.fred;Vila-Seca
+PDI;Josep;josep.garcia;DEIM;Sescelades
