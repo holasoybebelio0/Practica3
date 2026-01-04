@@ -22,21 +22,24 @@ public class LlistaInscripcions {
     public int getNumInscripcions() {
         return numInscripcions;
     }
-    public void afegirInscripcio(inscripcions inscripcio) {
+    public boolean afegirInscripcio(inscripcions inscripcio) {
+        boolean espotafegir = false;
         if (numInscripcions < LlistaInscripcions.length) {
             LlistaInscripcions[numInscripcions] = inscripcio;
             numInscripcions++;
+            espotafegir = true;
         } else {
             System.out.println("No es poden afegir més inscripcions, capacitat plena.");
         }
+        return espotafegir;
     }
-}
+
 
 
     public LlistaInscripcions copia() {
-        LlistaInscripcions novaLlista = new LlistaInscripcions(LlistaIncripcions.length);
+        LlistaInscripcions novaLlista = new LlistaInscripcions(LlistaInscripcions.length);
         for (int i = 0; i < numInscripcions; i++) {
-            novaLlista.LlistaIncripcions[i] = LlistaIncripcions[i].copia();
+            novaLlista.LlistaInscripcions[i] = LlistaInscripcions[i].copia();
         }
         novaLlista.numInscripcions = numInscripcions;
         return novaLlista;
@@ -104,8 +107,8 @@ public class LlistaInscripcions {
    
     public inscripcions getInscripcioPerNom(String nomParticipant) {
     for (int i = 0; i < numInscripcions; i++) {
-        if (LlistaIncripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
-            return LlistaIncripcions[i];
+        if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
+            return LlistaInscripcions[i];
         }
     }
     return null;
@@ -113,7 +116,7 @@ public class LlistaInscripcions {
 
     public boolean estaInscrit(String nomParticipant) {
         for (int i = 0; i < numInscripcions; i++) {
-            if (LlistaIncripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
+            if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
                 return true;
             }
         }
@@ -121,7 +124,7 @@ public class LlistaInscripcions {
     }
     
     public boolean hihaPlaces() {
-        return numInscripcions < LlistaIncripcions.length;
+        return numInscripcions < LlistaInscripcions.length;
     }
 
     public int getNumEspera() {
@@ -129,7 +132,7 @@ public class LlistaInscripcions {
     }
 
     public int getPlacesMaximes() {
-        return LlistaIncripcions.length;
+        return LlistaInscripcions.length;
     }
     // TASCA 19: Calcular mitjana per a un col·lectiu específic
     public double calcularMitjanaPerCol(String tipusObjectiu) {
@@ -137,7 +140,7 @@ public class LlistaInscripcions {
         int comptador = 0;
 
         for (int i = 0; i < numInscripcions; i++) {
-            inscripcions ins = LlistaIncripcions[i];
+            inscripcions ins = LlistaInscripcions[i];
             
             // Comprovem si és del tipus que busquem (ignorant majúscules/minúscules)
             // I comprovem que l'usuari hagi valorat (valoracio != -1)
@@ -165,7 +168,7 @@ public class LlistaInscripcions {
         int i = 0;
 
         while (i < numInscripcions && pos == -1) {
-            if (LlistaIncripcions[i].getNomParticipant().equalsIgnoreCase(nom)) {
+            if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nom)) {
                 pos = i;
             }
             i++;
@@ -176,10 +179,10 @@ public class LlistaInscripcions {
         }
 
         for (i = pos; i < numInscripcions - 1; i++) {
-            LlistaIncripcions[i] = LlistaIncripcions[i + 1];
+            LlistaInscripcions[i] = LlistaInscripcions[i + 1];
         }
         
-        LlistaIncripcions[numInscripcions - 1] = null;
+        LlistaInscripcions[numInscripcions - 1] = null;
         numInscripcions--;
         
         return true;
@@ -196,13 +199,13 @@ public class LlistaInscripcions {
             return null;
         }
         else{
-            inscripcions primer = LlistaIncripcions[0];
+            inscripcions primer = LlistaInscripcions[0];
             
             for (int i = 0; i < numInscripcions - 1; i++) {
-                LlistaIncripcions[i] = LlistaIncripcions[i + 1];
+                LlistaInscripcions[i] = LlistaInscripcions[i + 1];
             }
             
-            LlistaIncripcions[numInscripcions - 1] = null;
+            LlistaInscripcions[numInscripcions - 1] = null;
             numInscripcions--;
             
             return primer;
