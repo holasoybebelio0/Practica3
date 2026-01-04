@@ -2,88 +2,116 @@ package aplicacio;
 
 import dades.*;
 import dades.usuaris.*;
-import opcionsmenu.*;
-
 import java.util.Scanner;
 
 public class main {
     public static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-        mostrarMenu();
-        int opcio = scanner.nextInt();
-        switch (opcio) {
-            case 1:
-                // Cridar mètode per indicar dades d'avui
-                break;
-            case 2:
-                // Cridar mètode per mostrar dades de les llistes
-                break;
-            case 3:
-                // Cridar mètode per activitats en període d'inscripció
-                break;
-            case 4:
-                // Cridar mètode per activitats amb classe avui
-                break;
-            case 5:
-                // Cridar mètode per activitats actives avui
-                break;
-            case 6:
-                // Cridar mètode per activitats amb places disponibles
-                break;
-            case 7:
-                // Cridar mètode per detall d'una activitat
-                break;
-            case 8:
-                // Cridar mètode per detall d'un usuari
-                break;
-            case 9:
-                // Cridar mètode per activitats d'un usuari
-                break;
-            case 10:
-                // Cridar mètode per inscriure un usuari a una activitat
-                break;
+        LlistaActivitats llistaActivitats = new LlistaActivitats(100);
+        LlistaUsuaris llistaUsuaris = new LlistaUsuaris(100);
+        LlistaInscripcions llistaInscripcions = new LlistaInscripcions(100);
+        Scanner scanner = new Scanner(System.in);
+        boolean sortir = false;
+        while(!sortir) {
+            mostrarMenu();
+            int opcio = -1;
+            try { 
+                opcio = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Introdueix un número vàlid.");
+                continue;
+            }
+        
+        
+        
+            switch (opcio) {
+                case 1:
+                    // Cridar mètode per indicar dades d'avui
+                    break;
+                case 2:
+                    // Cridar mètode per mostrar dades de les llistes
+                    break;
+                case 3:
+                    // Cridar mètode per activitats en període d'inscripció
+                    break;
+                case 4:
+                    // Cridar mètode per activitats amb classe avui
+                    break;
+                case 5:
+                    // Cridar mètode per activitats actives avui
+                    break;
+                case 6:
+                    // Cridar mètode per activitats amb places disponibles
+                    break;
+                case 7:
+                    // Cridar mètode per detall d'una activitat
+                    break;
+                case 8:
+                    // Cridar mètode per detall d'un usuari
+                    break;
+                case 9:
+                    // Cridar mètode per activitats d'un usuari
+                    break;
+                case 10:
+                    // Cridar mètode per inscriure un usuari a una activitat
+                    break;
 
-            case 11:
-                // Cridar mètode per llistar inscrits i llista d'espera d'una activitat
-                break;
-            case 12:
-                // Cridar mètode per eliminar un usuari d'una activitat
-                break;
-            case 13:
-                // Cridar mètode per afegir nova activitat d'un dia
-                break;
-            case 14:
-                // Cridar mètode per afegir nova activitat periòdica
-                break;
-            case 15:
-                // Cridar mètode per afegir nova activitat en línia
-                break;
-            case 16:
-                // Cridar mètode per valorar una activitat finalitzada
-                break;
-            case 17:
-                // Cridar mètode per resum de valoracions (activitats acabades)
-                break;
-            case 18:
-                // Cridar mètode per resum de valoracions per usuari
-                break;
-            case 19:
-                // Cridar mètode per mitjana de valoracions per col·lectiu
-                break;
-            case 20:
-                // Cridar mètode per usuari més actiu d'un col·lectiu
-                break;
-            case 21:
+                case 11:
+                    // Cridar mètode per llistar inscrits i llista d'espera d'una activitat
+                    break;
+                case 12:
+                    // Cridar mètode per eliminar un usuari d'una activitat
+                    break;
+                case 13:
+                    // Cridar mètode per afegir nova activitat d'un dia
+                    break;
+                case 14:
+                    // Cridar mètode per afegir nova activitat periòdica
+                    break;
+                case 15:
+                    // Cridar mètode per afegir nova activitat en línia
+                    break;
+                case 16:
+                    // Cridar mètode per valorar una activitat finalitzada
+                    break;
+                case 17:
+                    // Cridar mètode per resum de valoracions (activitats acabades)
+                    break;
+                case 18:
+                    // Cridar mètode per resum de valoracions per usuari
+                    break;
+                case 19:
+                    // Cridar mètode per mitjana de valoracions per col·lectiu
+                    break;
+                case 20:
+                    // Cridar mètode per usuari més actiu d'un col·lectiu
+                    break;
+                case 21:
 
-                // Cridar mètode per donar de baixa activitats amb poca participació
-                break;
-            case 22:
-                System.out.println("Sortint de l'aplicació. Fins aviat!");
+                    // Cridar mètode per donar de baixa activitats amb poca participació
+                    break;
+                case 22:
+                    System.out.println("\n--- SORTIR DE L'APLICACIÓ ---");
+                    System.out.print("Vols guardar les dades abans de sortir? (S/N): ");
+                    String resp = scanner.nextLine().trim().toUpperCase();
 
-                break;
-            default:
-                System.out.println("Opció invàlida. Si us plau, tria una opció vàlida.");
-                break;
+                    if (resp.equals("S")) {
+                        System.out.println("Guardant dades...");
+                        System.out.println("Dades guardades. Adéu!");
+                        sortir = true;
+                    } else if (resp.equals("N")) {
+                        System.out.println("Sortint sense guardar. Adéu!");
+                        sortir = true;
+                    } else {
+                        System.out.println("Opció no vàlida.");
+                    }
+                    break;
+
+                    
+                default:
+                    System.out.println("Opció invàlida. Si us plau, tria una opció vàlida.");
+                    break;
+            }
         }
 
     }

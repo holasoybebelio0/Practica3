@@ -1,5 +1,11 @@
 package dades;
 import dades.usuaris.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -341,6 +347,116 @@ public boolean inscriureUsuariActivitat(Usuari usuari, String nomActivitat, Loca
             trobat = true;
         }
         return trobat;
+    }
+
+    /**
+     * Guarda la llista d'activitats en un fitxer de text.
+     * @param fitxer Nom del fitxer (ex: "activitats.txt")
+     */
+    public void guardarActivitatsFitxer(String fitxer) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fitxer))) {
+            for (int i = 0; i < nElems; i++) {
+                Activitat act = llista[i];
+                
+                // Convertim l'array de col·lectius a un String separat per comes per guardar-lo
+                String colStr = String.join(",", act.getColectius());
+
+                if (act instanceof ActivitatUnDia) {
+                    ActivitatUnDia a = (ActivitatUnDia) act;
+                    // Format: UNDIA;nom;col·lectius;iniciInsc;fiInsc;data;ciutat;preu;places;horari
+                    writer.write(String.format("UNDIA;%s;%s;%s;%s;%s;%s;%.2f;%d;%s",
+                        a.getNom(), colStr, a.getDataIniciInscripcio(), a.getDataFinalInscripcio(),
+                        a.getData(), a.getCiutat(), a.getPreu(), a.getPlaces(), a.getHorari()));
+
+                } else if (act instanceof ActivitatPeriodica) {
+                    ActivitatPeriodica a = (ActivitatPeriodica) act;
+                    // Format: PERIODICA;nom;col·lectius;iniciInsc;fiInsc;diaSetmana;horari;dataInici;nSetmanes;places;preu;centre;ciutat
+                    writer.write(String.format("PERIODICA;%s;%s;%s;%s;%s;%s;%s;%d;%d;%.2f;%s;%s",
+                        a.getNom(), colStr, a.getDataIniciInscripcio(), a.getDataFinalInscripcio(),
+                        a.getDiaSetmana(), a.getHorari(), a.getDataInici(), a.getnSetmanes(), a.getPlaces(), a.getPreu(), a.getNomCentre(), a.getCiutat()));
+
+                } else if (act instanceof ActivitatOnline) {
+                    ActivitatOnline a = (ActivitatOnline) act;
+                    // Format: ONLINE;nom;col·lectius;iniciInsc;fiInsc;enllac;dataIniciActivitat;periodeDies
+                    writer.write(String.format("ONLINE;%s;%s;%s;%s;%s;%s;%d",
+                        a.getNom(), colStr, a.getDataIniciInscripcio(), a.getDataFinalInscripcio(),
+                        a.getEnllaç(), a.getDataIniciActivitat(), a.getPeriodeDies()));
+                }
+                
+                writer.newLine();
+            }
+            System.out.println("Activitats guardades correctament a " + fitxer);
+        } catch (IOException e) {
+            System.out.println("Error al guardar les activitats al fitxer: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Carrega les activitats des d'un fitxer de text.
+     * @param fitxer Nom del fitxer (ex: "activitats.txt")
+     */
+    public void carregarActivitatsFitxer(String fitxer) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fitxer))) {
+            String linia;
+            this.nElems = 0; // Reiniciem la llista
+
+            while ((linia = reader.readLine()) != null) {
+                String[] dades = linia.split(";");
+                if (dades.length > 0) {
+                    String tipus = dades[0];
+                    Activitat novaActivitat = null;
+                    
+                    // Recuperem els col·lectius (separats per coma)
+                    String[] col = dades[2].split(",");
+
+                    // Formatejador per llegir les dates (si calgués, però LocalDate.parse accepta YYYY-MM-DD per defecte)
+                    // Nota: Si al guardar uses toString(), el format és YYYY-MM-DD.
+                    
+                    if (tipus.equalsIgnoreCase("UNDIA")) {
+                        // UNDIA;nom;col·lectius;iniciInsc;fiInsc;data;ciutat;preu;places;horari
+                        novaActivitat = new ActivitatUnDia(
+                            dades[1], col,
+                            LocalDate.parse(dades[3]), LocalDate.parse(dades[4]), // Dates inscripció
+                            LocalDate.parse(dades[5]), // Data activitat
+                            dades[6], Double.parseDouble(dades[7].replace(",", ".")), // Preu (replace per si decimal ve amb coma)
+                            Integer.parseInt(dades[8]), dades[9]
+                        );
+
+                    } else if (tipus.equalsIgnoreCase("PERIODICA")) {
+                        // PERIODICA;nom;col·lectius;iniciInsc;fiInsc;diaSetmana;horari;dataInici;nSetmanes;places;preu;centre;ciutat
+                        novaActivitat = new ActivitatPeriodica(
+                            dades[1], col,
+                            LocalDate.parse(dades[3]), LocalDate.parse(dades[4]),
+                            dades[5], dades[6],
+                            LocalDate.parse(dades[7]), // Data inici activitat (ja és LocalDate a la teva classe)
+                            Integer.parseInt(dades[8]), Integer.parseInt(dades[9]),
+                            Double.parseDouble(dades[10].replace(",", ".")), 
+                            dades[11], dades[12]
+                        );
+
+                    } else if (tipus.equalsIgnoreCase("ONLINE")) {
+                        // ONLINE;nom;col·lectius;iniciInsc;fiInsc;enllac;dataIniciActivitat;periodeDies
+                        novaActivitat = new ActivitatOnline(
+                            dades[1], col,
+                            LocalDate.parse(dades[3]), LocalDate.parse(dades[4]),
+                            dades[5],
+                            LocalDate.parse(dades[6]), // Data inici activitat online
+                            Integer.parseInt(dades[7])
+                        );
+                    }
+
+                    if (novaActivitat != null) {
+                        this.afegirActivitat(novaActivitat);
+                    }
+                }
+            }
+            System.out.println("S'han carregat " + this.nElems + " activitats correctament.");
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Fitxer d'activitats no trobat (" + fitxer + "). Es crearà en guardar.");
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("Error al carregar les activitats: " + e.getMessage());
+        }
     }
 }
 

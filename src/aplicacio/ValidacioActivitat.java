@@ -197,6 +197,34 @@ public class ValidacioActivitat{
 
         System.out.println("\n17. Mostrar el resum de valoracions d'una activitat acabada\n");
         llista.mostrarResumActivitatAcabada(LocalDate.of(2026, 9, 12));
+        
+        System.out.println("\n[7] TEST DE LECTURA I ESCRIPTURA DE FITXERS");
+
+        String nomFitxer = "provaActivitats.txt";
+
+        // PAS 1: Guardar la llista actual (que té 3 activitats)
+        System.out.println(" -> Guardant llista actual a '" + nomFitxer + "'...");
+        llista.guardarActivitatsFitxer(nomFitxer);
+
+        // PAS 2: Crear una llista nova buida
+        System.out.println(" -> Creant una nova llista buida...");
+        LlistaActivitats llistaRecuperada = new LlistaActivitats(10);
+
+        // PAS 3: Carregar des del fitxer
+        System.out.println(" -> Carregant dades del fitxer...");
+        llistaRecuperada.carregarActivitatsFitxer(nomFitxer);
+
+        // PAS 4: Verificar contingut
+        System.out.println(" -> Contingut de la llista recuperada:");
+        llistaRecuperada.mostrarLlista(0); // Mostrar TOTES
+
+        if (llistaRecuperada.getnElems() == 3) {
+            System.out.println("CORRECTE: S'han recuperat 3 activitats.");
+        } else {
+            System.out.println("ERROR: S'han recuperat " + llistaRecuperada.getnElems() + " activitats (esperades: 3).");
+        }
+
+                
         System.out.println("\n==================================================");
         System.out.println("            FI DE LES PROVES - RESULTAT           ");
         System.out.println("==================================================");
