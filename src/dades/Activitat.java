@@ -51,6 +51,13 @@ public abstract class Activitat {
         this.dataFinalInscripcio = dataFinalInscripcio;
     }
 
+    public boolean conteUsuari (String nom) {
+        return llistaInscripcions.conteUsuari(nom);
+    }
+    
+    public double mitjanaValoracions () {
+        return llistaInscripcions.mitjanaValoracions();
+    }
 
    public boolean estaInscrit(String nomParticipant) {
         for (int i = 0; i < llistaInscripcions.getNumInscripcions(); i++) {
@@ -147,4 +154,6 @@ public abstract class Activitat {
     public abstract boolean esActiva(LocalDate dataObjectiu);
 
     public abstract boolean teClasseAvui(LocalDate dia);
+
+    public abstract boolean haAcabat(LocalDate dia);
 }

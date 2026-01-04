@@ -22,7 +22,9 @@ public class inscripcions {
     public String getDataInscripcio() {
         return dataInscripcio;
     }
-   
+    public int getValoracio()  {
+        return valoracio;
+    }
     @Override
     public String toString() {
         return "Inscripcions [nomParticipant=" + nomParticipant + ", dataInscripcio=" + dataInscripcio + "]";
@@ -51,10 +53,6 @@ public class inscripcions {
             System.out.println("Valoració de " + valoracio + " registrada per " + nomParticipant);
 
         }
-    }
-
-    public int getValoracio() {
-        return valoracio;
     }
 
     public String getTipusUsuari() {

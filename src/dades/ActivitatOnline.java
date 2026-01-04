@@ -76,4 +76,15 @@ public class ActivitatOnline extends Activitat {
     public boolean teClasseAvui (LocalDate dia) {
         return false; 
     }
+
+    @Override
+    public boolean haAcabat(LocalDate avui) {
+        try {
+            if (dataIniciActivitat == null) return false;
+            LocalDate fi = dataIniciActivitat.plusDays(this.periodeDies);
+            return avui.isAfter(fi);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

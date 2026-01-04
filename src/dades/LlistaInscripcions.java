@@ -1,18 +1,18 @@
 package dades;
 
 public class LlistaInscripcions {
-    private inscripcions[] LlistaIncripcions;
+    private inscripcions[] LlistaInscripcions;
     private int numInscripcions;
     //CONSTUCTOR
     public LlistaInscripcions(int capacitat){
-        LlistaIncripcions = new inscripcions[capacitat];
+        LlistaInscripcions = new inscripcions[capacitat];
         numInscripcions = 0;
     }
 
     //GETTERS I SETTERS
     public inscripcions getInscripcio(int index) {
         if (index >= 0 && index < numInscripcions) {
-            return LlistaIncripcions[index];
+            return LlistaInscripcions[index];
         } else {
             System.out.println("Índex fora de rang.");
             return null;
@@ -22,27 +22,24 @@ public class LlistaInscripcions {
     public int getNumInscripcions() {
         return numInscripcions;
     }
-
-    
-
-
-
     public boolean afegirInscripcio(inscripcions inscripcio) {
-    if (numInscripcions < LlistaIncripcions.length) {
-        LlistaIncripcions[numInscripcions] = inscripcio;
-        numInscripcions++;
-        return true;
-    } else {
-        System.out.println("No es poden afegir més inscripcions, capacitat plena.");
-        return false;
+        boolean espotafegir = false;
+        if (numInscripcions < LlistaInscripcions.length) {
+            LlistaInscripcions[numInscripcions] = inscripcio;
+            numInscripcions++;
+            espotafegir = true;
+        } else {
+            System.out.println("No es poden afegir més inscripcions, capacitat plena.");
+        }
+        return espotafegir;
     }
-}
+
 
 
     public LlistaInscripcions copia() {
-        LlistaInscripcions novaLlista = new LlistaInscripcions(LlistaIncripcions.length);
+        LlistaInscripcions novaLlista = new LlistaInscripcions(LlistaInscripcions.length);
         for (int i = 0; i < numInscripcions; i++) {
-            novaLlista.LlistaIncripcions[i] = LlistaIncripcions[i].copia();
+            novaLlista.LlistaInscripcions[i] = LlistaInscripcions[i].copia();
         }
         novaLlista.numInscripcions = numInscripcions;
         return novaLlista;
@@ -52,7 +49,7 @@ public class LlistaInscripcions {
     public String toString() {
         String resultat = "Llista de "+numInscripcions+" inscripcions:\n";
         for (int i = 0; i < numInscripcions; i++) {
-            resultat += LlistaIncripcions[i].toString() + "\n";
+            resultat += LlistaInscripcions[i].toString() + "\n";
         }
         return resultat;
     }
@@ -66,22 +63,52 @@ public class LlistaInscripcions {
     
 
     public void setInscripcioPosicio(int posicio, inscripcions novaInscripcio){
-        if (posicio >= 0 && posicio < LlistaIncripcions.length) {
-            if(LlistaIncripcions[posicio] == null){
+        if (posicio >= 0 && posicio < LlistaInscripcions.length) {
+            if(LlistaInscripcions[posicio] == null){
                 numInscripcions++;
             }
-            LlistaIncripcions[posicio] = novaInscripcio.copia();
+            LlistaInscripcions[posicio] = novaInscripcio.copia();
         } 
         else {
             System.out.println("Index invàlid");
         }
     }
 
+    public boolean conteUsuari (String nom) {
+        boolean conte = false;
+        for (int i=0; i<numInscripcions; i++) {
+            if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nom)) {
+                conte = true; 
+            }
+        }
+        return conte;
+    }
+
+    public double mitjanaValoracions() {
+        double suma = 0;
+        int nvaloracions = 0;
+        double resultat;
+
+        for (int i=0; i<numInscripcions; i++) {
+            int valoracio = LlistaInscripcions[i].getValoracio();
+            if (valoracio != -1) {
+                suma += LlistaInscripcions[i].getValoracio();
+                nvaloracions++;
+            }
+        }
+        if (nvaloracions == 0) {
+            resultat = 0.0;
+        } else {
+            resultat = (suma/nvaloracions);
+        }
+        
+        return resultat;
+    }
    
     public inscripcions getInscripcioPerNom(String nomParticipant) {
     for (int i = 0; i < numInscripcions; i++) {
-        if (LlistaIncripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
-            return LlistaIncripcions[i];
+        if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
+            return LlistaInscripcions[i];
         }
     }
     return null;
@@ -89,7 +116,7 @@ public class LlistaInscripcions {
 
     public boolean estaInscrit(String nomParticipant) {
         for (int i = 0; i < numInscripcions; i++) {
-            if (LlistaIncripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
+            if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nomParticipant)) {
                 return true;
             }
         }
@@ -97,7 +124,7 @@ public class LlistaInscripcions {
     }
     
     public boolean hihaPlaces() {
-        return numInscripcions < LlistaIncripcions.length;
+        return numInscripcions < LlistaInscripcions.length;
     }
 
     public int getNumEspera() {
@@ -105,7 +132,7 @@ public class LlistaInscripcions {
     }
 
     public int getPlacesMaximes() {
-        return LlistaIncripcions.length;
+        return LlistaInscripcions.length;
     }
     // TASCA 19: Calcular mitjana per a un col·lectiu específic
     public double calcularMitjanaPerCol(String tipusObjectiu) {
@@ -113,7 +140,7 @@ public class LlistaInscripcions {
         int comptador = 0;
 
         for (int i = 0; i < numInscripcions; i++) {
-            inscripcions ins = LlistaIncripcions[i];
+            inscripcions ins = LlistaInscripcions[i];
             
             // Comprovem si és del tipus que busquem (ignorant majúscules/minúscules)
             // I comprovem que l'usuari hagi valorat (valoracio != -1)
@@ -141,7 +168,7 @@ public class LlistaInscripcions {
         int i = 0;
 
         while (i < numInscripcions && pos == -1) {
-            if (LlistaIncripcions[i].getNomParticipant().equalsIgnoreCase(nom)) {
+            if (LlistaInscripcions[i].getNomParticipant().equalsIgnoreCase(nom)) {
                 pos = i;
             }
             i++;
@@ -152,10 +179,10 @@ public class LlistaInscripcions {
         }
 
         for (i = pos; i < numInscripcions - 1; i++) {
-            LlistaIncripcions[i] = LlistaIncripcions[i + 1];
+            LlistaInscripcions[i] = LlistaInscripcions[i + 1];
         }
         
-        LlistaIncripcions[numInscripcions - 1] = null;
+        LlistaInscripcions[numInscripcions - 1] = null;
         numInscripcions--;
         
         return true;
@@ -172,13 +199,13 @@ public class LlistaInscripcions {
             return null;
         }
         else{
-            inscripcions primer = LlistaIncripcions[0];
+            inscripcions primer = LlistaInscripcions[0];
             
             for (int i = 0; i < numInscripcions - 1; i++) {
-                LlistaIncripcions[i] = LlistaIncripcions[i + 1];
+                LlistaInscripcions[i] = LlistaInscripcions[i + 1];
             }
             
-            LlistaIncripcions[numInscripcions - 1] = null;
+            LlistaInscripcions[numInscripcions - 1] = null;
             numInscripcions--;
             
             return primer;

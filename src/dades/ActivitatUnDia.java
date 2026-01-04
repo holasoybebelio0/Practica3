@@ -111,5 +111,11 @@ public class ActivitatUnDia extends Activitat{
         return this.data.isEqual(dia);
     }
     
+    @Override
+    public boolean haAcabat(LocalDate avui) {
+        // Ha acabat si el dia d'avui és posterior a la data de l'activitat
+        if (data == null) return false;
+        return avui.isAfter(this.data);
+    }
 }
     

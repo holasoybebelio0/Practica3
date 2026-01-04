@@ -299,11 +299,28 @@ public boolean inscriureUsuariActivitat(Usuari usuari, String nomActivitat, Loca
         }
     }
 
+    public void mostrarActivitatsUsuari (String nom) {
+        for (int i = 0; i<nElems; i++) {
+            if (llista[i].conteUsuari(nom)) {
+                System.out.println(llista[i].toString());
+            }
+        }
+    }
 
+    public void mostrarResumActivitatAcabada (LocalDate date) {
+        boolean acabada = false; 
+        for (int i=0; i<nElems; i++) {
+            if (llista[i].haAcabat(date)) {
+                System.out.println(" - " + llista[i].mitjanaValoracions());
+                acabada = true;
+            }
+        }
 
-
-
-
+        if (!acabada) {
+            System.out.println("En la data "+date+" no s'han acabat les activitats, o no hi han.");
+        }
+    }
+    
     /**
      * Elimina l'activitat que es troba a la posició indicada i desplaça les activitats restants
      * @param index Posició de l'activitat a esborrar.
