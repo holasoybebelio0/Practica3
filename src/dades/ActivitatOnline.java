@@ -73,8 +73,8 @@ public class ActivitatOnline extends Activitat {
     }
     
     @Override
-    public boolean teClasseAvui (LocalDate dia) {
-        return false; 
+    public boolean teClasseAvui(LocalDate dia) {
+        return esActiva(dia);
     }
 
     @Override

@@ -154,12 +154,15 @@ public class ActivitatPeriodica extends Activitat{
 
     @Override
     public boolean teClasseAvui(LocalDate dia) {
+        if (!esActiva(dia)) {
+            return false;
+        }
         String diaAvui = "";
         switch (dia.getDayOfWeek()) {
             case MONDAY: diaAvui = "DILLUNS"; break;
             case TUESDAY: diaAvui = "DIMARTS"; break;
-            case THURSDAY: diaAvui = "DIMECRES"; break;
-            case WEDNESDAY: diaAvui = "DIJOUS"; break;
+            case WEDNESDAY: diaAvui = "DIMECRES"; break;
+            case THURSDAY: diaAvui = "DIJOUS"; break;
             case FRIDAY: diaAvui = "DIVENDRES"; break;
             case SATURDAY: diaAvui = "DISSABTE"; break;
             case SUNDAY: diaAvui = "DIUMENGE"; break;
