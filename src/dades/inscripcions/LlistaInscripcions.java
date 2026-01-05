@@ -60,7 +60,7 @@ public class LlistaInscripcions implements Serializable {
     }
 
     public void Indicardatavui() {
-        // Mètode buit
+        
     }
     
     public void setInscripcioPosicio(int posicio, inscripcions novaInscripcio){
@@ -75,7 +75,7 @@ public class LlistaInscripcions implements Serializable {
         }
     }
 
-    // CORREGIT: Un sol return
+   
     public boolean conteUsuari (String nom) {
         boolean trobat = false;
         for (int i=0; i < numInscripcions && !trobat; i++) {

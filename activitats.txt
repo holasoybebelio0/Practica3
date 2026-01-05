@@ -1,7 +1,7 @@
 UNDIA;Hackathon Java 2026;Estudiants;2025-12-01;2025-12-31;2026-01-10;Campus Sescelades;5,00;100;09:00
 UNDIA;Conferencia IA;Tothom;2025-12-01;2025-12-31;2026-01-24;Paranimf Tarragona;0,00;200;18:00
 UNDIA;Taller Cuina Saludable;PTGAS;2026-01-01;2026-01-30;2026-02-14;Campus Catalunya;15,00;20;17:00
-UNDIA;Xerrada Ciberseguretat;Tothom;2026-01-01;2026-02-15;2026-02-20;Sala de Graus;0,00;80;12:00
+UNDIA;Xerrada Ciberseguretat;Tothom;2026-01-01;2026-01-02;2026-02-20;Sala de Graus;0,00;80;12:00
 UNDIA;Marató de Programació;Estudiants;2026-02-01;2026-02-28;2026-03-05;Laboratoris ETSE;2,00;50;10:00
 UNDIA;Reunió Anual 2027;PDI;2026-12-01;2026-12-31;2027-01-15;Rectorat;0,00;30;09:00
 UNDIA;Festa Major Campus;Tothom;2027-04-01;2027-04-30;2027-05-20;Jardins Campus;5,00;500;16:00
@@ -15,3 +15,4 @@ ONLINE;Prevenció Riscos;PDI;2025-12-01;2025-12-31;formacio.urv.cat;2026-01-15;1
 ONLINE;Curs Excel Avançat;PTGAS;2026-01-01;2026-01-31;formacio.urv.cat;2026-02-01;28
 ONLINE;Seminari Web Disseny;Estudiants;2026-02-01;2026-02-28;zoom.us;2026-03-01;15
 ONLINE;Curs Gestió Temps 2027;PDI;2026-12-01;2027-01-10;moodle.urv.cat;2027-01-10;20
+UNDIA;Prueba;Tothom;2023-01-01;2030-12-31;2031-01-01;Campus Prova;0,00;100;10:00

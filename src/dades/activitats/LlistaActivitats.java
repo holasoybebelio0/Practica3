@@ -183,7 +183,7 @@ public boolean inscriureUsuariActivitat(Usuari usuari, String nomActivitat, Loca
         tipusUsuari = "PDI";
     } else if (usuari instanceof PTGAS) {
         tipusUsuari = "PTGAS";
-    }
+    }       
     
     //Verificar si ya está inscrito
     if (activitat.estaInscrit(usuari.getAlies())) {

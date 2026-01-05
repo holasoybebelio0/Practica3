@@ -83,9 +83,10 @@ public abstract class Activitat {
         return dataActual.isAfter(dataFinalInscripcio);
     }
 
-     private boolean esColectiuPermes(String tipusUsuari) {
+    private boolean esColectiuPermes(String tipusUsuari) {
         for (String colectiu : colectius) {
-            if (colectiu.equalsIgnoreCase(tipusUsuari)) {
+            // CORRECCIÓ: Si el col·lectiu és "Tothom" o coincideix amb el tipus, retorna true
+            if (colectiu.equalsIgnoreCase("Tothom") || colectiu.equalsIgnoreCase(tipusUsuari)) {
                 return true;
             }
         }

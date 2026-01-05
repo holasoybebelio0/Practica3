@@ -1,44 +1,45 @@
 package aplicacio;
 
-import dades.*;
-import dades.usuaris.*;
 import dades.activitats.*;
 import dades.inscripcions.*;
-import opcionsmenu.menuAran; // Asumo que usas las clases de tus compañeros
+import dades.usuaris.*;
 import java.time.LocalDate;
 import java.util.Scanner;
+import opcionsmenu.menuAran;
 
 public class main {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         // 1. INICIALITZACIÓ DE LLISTES
-        // Ajusta la mida (100) segons necessitis
         LlistaActivitats llistaActivitats = new LlistaActivitats(100);
         LlistaUsuaris llistaUsuaris = new LlistaUsuaris(100);
-        LlistaInscripcions llistaInscripcions = new LlistaInscripcions(100); // Llista per al fitxer serialitzat
-        
-        // 2. CÀRREGA DE DADES INICIALS (PERSISTÈNCIA)
+        LlistaInscripcions llistaInscripcions; // La definim però la instanciem al carregar
+
+        // 2. CÀRREGA DE DADES
         System.out.println("Carregant dades del sistema...");
+        
+        // Càrrega d'Usuaris (està a l'arrel del projecte)
+        llistaUsuaris.carregarUsuarisFitxer("prova.txt");
+
+        // Càrrega d'Activitats (està dins de la carpeta src)
+        // MODIFICAT: Afegim "src/" perquè el trobi sense moure'l ni canviar la classe
+        llistaActivitats.carregarActivitatsFitxer("src/provaActivitats.txt");
+
+        // Càrrega d'Inscripcions (fitxer serialitzat)
         try {
-            // Carreguem usuaris i activitats dels fitxers de text
-            llistaUsuaris.carregarUsuarisFitxer("prova.txt");
-            llistaActivitats.carregarActivitatsFitxer("provaActivitats.txt");
-            
-            // Carreguem les inscripcions del fitxer serialitzat (.dat)
-            // Nota: Si el fitxer no existeix (primera vegada), el mètode hauria de gestionar l'excepció internament o crear-ne un de buit.
-            llistaInscripcions.carregarInscripcions("totes_inscripcions.dat");
-            
-            System.out.println("Dades carregades correctament.");
+            // Assignem el resultat a la variable (IMPORTANT: no cridar-ho a l'aire)
+            llistaInscripcions = LlistaInscripcions.carregarLlistaSerialitzada("totes_inscripcions.dat");
+            System.out.println("Inscripcions carregades correctament.");
         } catch (Exception e) {
-            System.out.println("Avís: No s'han pogut carregar totes les dades o és el primer cop que s'executa.");
-            // e.printStackTrace(); // Descomentar per veure errors concrets
+            System.out.println("Avís: Creant nova llista d'inscripcions (fitxer no existent o buit).");
+            llistaInscripcions = new LlistaInscripcions(100);
         }
         System.out.println("--------------------------------------------------");
 
         // Objectes auxiliars
         menuAran menuLogic = new menuAran(); 
-        LocalDate avui = LocalDate.now(); // Data del sistema
+        LocalDate avui = LocalDate.now(); 
         
         boolean sortir = false;
         
@@ -56,78 +57,77 @@ public class main {
             }
         
             switch (opcio) {
-                case 1:
+                case 1: // Canviar data
                     avui = llistaActivitats.moddataActual(avui);
                     break;
 
-                case 2:
+                case 2: // Mostrar llistes
                     System.out.println("\n--- LLISTA D'ACTIVITATS ---");
                     llistaActivitats.mostrarLlista(0); 
                     System.out.println("\n--- LLISTA D'USUARIS ---");
                     System.out.println(llistaUsuaris.toString());
                     break;
 
-                case 3:
+                case 3: // Període inscripció
                     llistaActivitats.mostrarActivitatsDisponibles(avui);
                     break;
 
-                case 4:
+                case 4: // Amb classe avui
                     System.out.println("\n--- ACTIVITATS AMB CLASSE AVUI (" + avui + ") ---");
                     llistaActivitats.mostrarActivitatsClasseAvui(avui);
                     break;
 
-                case 5:
+                case 5: // Actives avui
                     menuLogic.mostrarActivitatsAvui(llistaActivitats, avui);
                     break;
 
-                case 6:
+                case 6: // Places disponibles
                     llistaActivitats.mostrarActivitatsAmbPlaces();
                     break;
 
-                case 7:
+                case 7: // Detall activitat
                     System.out.print("Introdueix el nom de l'activitat: ");
                     String nomActDetall = scanner.nextLine();
                     llistaActivitats.mostrarDetallActivitatNom(nomActDetall);
                     break;
 
-                case 8:
+                case 8: // Detall usuari
                     System.out.print("Introdueix l'àlies de l'usuari: ");
                     String aliesUsuari = scanner.nextLine();
                     llistaUsuaris.mostrarDetallUsuariNom(aliesUsuari);
                     break;
 
-                case 9:
+                case 9: // Activitats usuari
                     System.out.print("Introdueix l'àlies de l'usuari: ");
                     String aliesActUser = scanner.nextLine();
                     llistaActivitats.mostrarActivitatsUsuari(aliesActUser);
                     break;
 
-                case 10:
-                    // Passem també la llista d'inscripcions per si cal guardar-ho allà
+                case 10: // Inscriure
                     inscriureUsuari(llistaActivitats, llistaUsuaris, llistaInscripcions, avui);
                     break;
 
-                case 11:
+                case 11: // Llistar inscrits
                     menuLogic.mostrarUsuarisApuntatsIEspera(llistaActivitats);
                     break;
 
-                case 12:
+                case 12: // Eliminar usuari
                     menuLogic.eliminarUsuariActivitat(llistaActivitats);
                     break;
 
-                case 13:
+                case 13: // Afegir activitat dia
                     afegirActivitatUnDia(llistaActivitats);
                     break;
 
-                case 14:
+                case 14: // Afegir activitat periòdica
                     afegirActivitatPeriodica(llistaActivitats);
                     break;
 
-                case 15:
+                case 15: // Afegir activitat online
                     menuLogic.afegirActivitatOnline(llistaActivitats);
                     break;
 
-                case 16:
+                case 16: // Valorar
                     System.out.print("Nom de l'activitat a valorar: ");
                     String nomVal = scanner.nextLine();
                     System.out.print("Àlies de l'usuari: ");
@@ -141,55 +141,49 @@ public class main {
                     }
                     break;
 
-                case 17:
+                case 17: // Resum acabades
                     System.out.println("\n--- RESUM ACTIVITATS ACABADES ---");
                     llistaActivitats.mostrarResumActivitatAcabada(avui);
                     break;
 
-                case 18:
+                case 18: // Resum usuari
                     menuLogic.mostrarResumValoracionsUsuari(llistaActivitats);
                     break;
 
-                case 19:
+                case 19: // Mitjana col·lectiu
                     System.out.print("Introdueix el nom de l'activitat: ");
                     String nomMitjana = scanner.nextLine();
                     llistaActivitats.mostrarMitjanaValoracions(nomMitjana);
                     break;
 
-                case 20:
+                case 20: // Usuari més actiu
                     menuLogic.calcularUsuariMesActiuColectiu(llistaActivitats, llistaUsuaris);
                     break;
 
-                case 21:
+                case 21: // Baixa per poca participació
                     menuLogic.donarBaixaActivitats(llistaActivitats, avui);
                     break;
 
-                case 22:
-                    System.out.println("\n--- SORTIR I GUARDAR ---");
-                    System.out.print("Vols guardar els canvis als fitxers? (S/N): ");
+                case 22: // SORTIR I GUARDAR
+                    System.out.println("\n--- SORTIR DE L'APLICACIÓ ---");
+                    System.out.print("Vols guardar les dades abans de sortir? (S/N): ");
                     String resp = scanner.nextLine().trim().toUpperCase();
 
                     if (resp.equals("S")) {
                         System.out.println("Guardant dades...");
                         try {
-                            // GUARDAR TOTES LES LLISTES ALS SEUS FITXERS CORRESPONENTS
-                            llistaActivitats.guardarActivitatsFitxer("provaActivitats.txt");
+                            // Guardem als mateixos llocs d'on hem llegit
                             llistaUsuaris.guardarUsuarisFitxer("prova.txt");
+                            llistaActivitats.guardarActivitatsFitxer("src/provaActivitats.txt");
+                            llistaInscripcions.guardarLlistaSerialitzada("totes_inscripcions.dat");
                             
-                            // Guardar el fitxer serialitzat d'inscripcions
-                            llistaInscripcions.guardarInscripcions("totes_inscripcions.dat");
-                            
-                            System.out.println("Dades guardades correctament a:");
-                            System.out.println("- prova.txt");
-                            System.out.println("- provaActivitats.txt");
-                            System.out.println("- totes_inscripcions.dat");
-                            
+                            System.out.println("Dades guardades correctament.");
                         } catch (Exception e) {
-                            System.out.println("Error guardant els fitxers: " + e.getMessage());
+                            System.out.println("Error al guardar: " + e.getMessage());
                         }
                         sortir = true;
                     } else if (resp.equals("N")) {
-                        System.out.println("Sortint sense guardar. Els canvis es perdran.");
+                        System.out.println("Sortint sense guardar.");
                         sortir = true;
                     } else {
                         System.out.println("Opció no vàlida.");
@@ -223,15 +217,15 @@ public class main {
         System.out.println("13. Afegir activitat d'un dia");
         System.out.println("14. Afegir activitat periòdica");
         System.out.println("15. Afegir activitat en línia");
-        System.out.println("16. Valorar activitat finalitzada");
-        System.out.println("17. Resum valoracions activitats acabades");
-        System.out.println("18. Resum valoracions per usuari");
-        System.out.println("19. Mitjana valoracions per col·lectiu");
+        System.out.println("16. Valorar una activitat finalitzada");
+        System.out.println("17. Resum de valoracions (activitats acabades)");
+        System.out.println("18. Resum de valoracions per usuari");
+        System.out.println("19. Mitjana de valoracions per col·lectiu");
         System.out.println("20. Usuari més actiu d'un col·lectiu");
-        System.out.println("21. Donar de baixa activitats (baixa participació)");
-        System.out.println("22. SORTIR I GUARDAR");
+        System.out.println("21. Donar de baixa activitats amb poca participació");
+        System.out.println("22. Sortir de l'aplicació");
         System.out.println("==================================================");
-        System.out.print("Selecciona opció: ");
+        System.out.print("Escull una opció: ");
     }
 
     private static void inscriureUsuari(LlistaActivitats llistaAct, LlistaUsuaris llistaUsu, LlistaInscripcions llistaIns, LocalDate dataActual) {
@@ -240,7 +234,6 @@ public class main {
         String alies = scanner.nextLine();
         
         Usuari usuariTrobat = null;
-        // Busquem l'usuari manualment si la llista no té mètode de cerca directa
         for (int i = 0; i < llistaUsu.getNumUsuaris(); i++) {
             if (llistaUsu.getUsuari(i).getAlies().equalsIgnoreCase(alies)) {
                 usuariTrobat = llistaUsu.getUsuari(i);
@@ -256,19 +249,8 @@ public class main {
         System.out.print("Introdueix el nom de l'activitat: ");
         String nomAct = scanner.nextLine();
 
-        // Realitzem la inscripció a la llista d'activitats
-        // NOTA: Si la lògica d'inscripció també ha d'actualitzar LlistaInscripcions,
-        // s'hauria de fer aquí o dins del mètode inscriureUsuariActivitat si es modifiqués.
-        // Assumim que la lògica principal està a LlistaActivitats.
-        
-        try {
-            llistaAct.inscriureUsuariActivitat(usuariTrobat, nomAct, dataActual);
-            // Si cal afegir-ho explícitament a la llista d'inscripcions global (pel fitxer .dat):
-            // llistaIns.afegirInscripcio(novaInscripcio...); 
-            // *Això depèn de com tingueu implementat el constructor d'Inscripció*
-        } catch (Exception e) {
-            System.out.println("Error en la inscripció: " + e.getMessage());
-        }
+        // Intentem inscriure a l'Activitat
+        llistaAct.inscriureUsuariActivitat(usuariTrobat, nomAct, dataActual);
     }
 
     private static void afegirActivitatUnDia(LlistaActivitats llista) {
@@ -286,9 +268,8 @@ public class main {
             
             ActivitatUnDia act = new ActivitatUnDia(nom, colectius, dataInici, dataFi, dataAct, ciutat, preu, places, horari);
             llista.afegirActivitatUnDia(act);
-            System.out.println("Activitat afegida.");
         } catch (Exception e) {
-            System.out.println("Error dades: " + e.getMessage());
+            System.out.println("Error introduint dades: " + e.getMessage());
         }
     }
 
@@ -312,7 +293,7 @@ public class main {
             llista.afegirActivitatPeriodica(act);
             System.out.println("Activitat afegida.");
         } catch (Exception e) {
-            System.out.println("Error dades: " + e.getMessage());
+            System.out.println("Error introduint dades: " + e.getMessage());
         }
     }
 }
