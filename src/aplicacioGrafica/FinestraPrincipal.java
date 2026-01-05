@@ -6,218 +6,259 @@ import java.time.*;
 import dades.*; 
 
 public class FinestraPrincipal extends JFrame {
-
-    // Referències
+    public static void main(String[] args) {
+        new FinestraPrincipal();
+    }
+    
     private LlistaActivitats dades;
     private JButton[] botonsDies;
     private JButton[] botonsFiltre;
     
-    // Components de control de data
-    private JComboBox<String> comboMesos;
-    private JTextField textAny;
-    private JButton botoActualitzar;
-
-    // Estat actual
+    private JComboBox<String> botoMes;
+    private JComboBox<Integer> botoAny;
+    private JButton botoAplicar;
+    
     private int filtreActual = 0; // 0=Tots, 1=UnDia, 2=Periodica, 3=Online
     
-    // Configuració inicial
-    private int mesActual = 11; // Novembre per defecte
-    private int anyActual = 2025;
-    private final int MAX_DIES = 31; // Màxim possible de botons
+    
+    private int mesSeleccionat = 1;
+    private int anySeleccionat = 2026;
+    private final int MAX_DIES = 31;
 
+    
     public FinestraPrincipal() {
-        super("Agenda Benestar URV");
+        super("Programa Benestar URV");
         
         this.setSize(800, 600);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout(10, 10));
 
-        // 1. CARREGAR DADES
-        dades = new LlistaActivitats(100);
+        // Carregar dades d'un fitxer que es digui activitats.txt
+        dades = new LlistaActivitats(1000);
         dades.carregarActivitatsFitxer("activitats.txt");
 
-        // 2. CREAR ELS PANELLS
-        crearPanellSuperior(); // Ara inclou selecció de data
-        crearCalendariCentral();
-        crearFiltresInferior();
+        // Crear el menu
+        crearPanellSuperior();
+        crearCalendari();
+        crearBotonsFiltres();
 
-        // 3. PINTAR INICIALMENT
+        // Actualitzar el calendari per defecte
         actualitzarCalendari(); 
 
         this.setVisible(true);
     }
 
-    private void crearPanellSuperior() {
-        JPanel panellNord = new JPanel();
-        panellNord.setLayout(new GridLayout(2, 1)); // Dues files: Títol i Controls
 
-        // --- Fila 1: Títol ---
+
+    private void crearPanellSuperior() {
+        int nfil=2, ncols=1;
+        JPanel panellSuperior = new JPanel();
+        panellSuperior.setLayout(new GridLayout(nfil, ncols)); // Títol i seleccio de data
+
+        // Titol
         JPanel panellTitol = new JPanel();
-        JLabel titol = new JLabel("CALENDARI D'ACTIVITATS");
-        titol.setFont(new Font("Arial", Font.BOLD, 18));
-        panellTitol.add(titol);
+        panellTitol.add(new JLabel("CALENDARI D'ACTIVITATS"));
         
-        // --- Fila 2: Controls de Data ---
+
+        // Seleccio de data
         JPanel panellControls = new JPanel();
         panellControls.setLayout(new FlowLayout());
-
         panellControls.add(new JLabel("Mes:"));
         
-        // Desplegable de mesos
-        String[] mesos = {"Gener", "Febrer", "Març", "Abril", "Maig", "Juny", 
-                          "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"};
-        comboMesos = new JComboBox<>(mesos);
-        comboMesos.setSelectedIndex(10); // Seleccionem Novembre (index 10) per defecte
-        panellControls.add(comboMesos);
 
+        // Boto per a seleccionar el mes
+        String[] mesos = {"Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"};
+        
+        botoMes = new JComboBox<String>(); // Lo del combo es per posar una llista desplegable
+        for (int i = 0; i < mesos.length; i++) {
+            botoMes.addItem(mesos[i]);
+        }
+        panellControls.add(botoMes);
+
+
+        // Text per escriure l'any
         panellControls.add(new JLabel("Any:"));
         
-        // Caixa de text per l'any
-        textAny = new JTextField("2025", 5);
-        panellControls.add(textAny);
+        botoAny = new JComboBox<Integer>();
+        for (int i = 2020; i <= 2030; i++) {
+            botoAny.addItem(i);
+        }
+        panellControls.add(botoAny);
+        botoAny.setSelectedItem(2026);
 
-        // Botó per canviar
-        botoActualitzar = new JButton("Canviar Data");
-        // Li passem 'this' a l'escoltador
-        botoActualitzar.addActionListener(new EscoltadorEsdeveniments(this));
-        panellControls.add(botoActualitzar);
 
-        // Afegim tot al panell nord
-        panellNord.add(panellTitol);
-        panellNord.add(panellControls);
+        // Botó per canviar la data
+        botoAplicar = new JButton("Aplicar Data");
+        botoAplicar.addActionListener(new ListenerBotons(this));// Listener de apretar el botó de canviar la data
+        panellControls.add(botoAplicar);
+
+        // Afegir tot al panell superior
+        panellSuperior.add(panellTitol);
+        panellSuperior.add(panellControls);
         
-        this.add(panellNord, BorderLayout.NORTH);
+        this.add(panellSuperior, BorderLayout.NORTH);
     }
 
-    private void crearCalendariCentral() {
+    private void crearCalendari() {
         JPanel panellCalendari = new JPanel();
-        // GridLayout: 5 files, 7 columnes = 35 forats (suficient per 31 dies)
-        panellCalendari.setLayout(new GridLayout(5, 7, 5, 5));
+        panellCalendari.setLayout(new GridLayout(5,7)); // 7 columnes pels dies de la setmana i 5 files pel maxim de setmanes d'un mes
 
         botonsDies = new JButton[MAX_DIES];
-        EscoltadorEsdeveniments escoltador = new EscoltadorEsdeveniments(this);
+        ListenerBotons listener = new ListenerBotons(this);
 
         for (int i = 0; i < MAX_DIES; i++) {
             botonsDies[i] = new JButton(String.valueOf(i + 1));
-            botonsDies[i].setBackground(Color.LIGHT_GRAY);
-            botonsDies[i].addActionListener(escoltador);
+            botonsDies[i].setBackground(Color.RED);
+            botonsDies[i].addActionListener(listener);
             panellCalendari.add(botonsDies[i]);
         }
         this.add(panellCalendari, BorderLayout.CENTER);
     }
 
-    private void crearFiltresInferior() {
+    private void crearBotonsFiltres() {
         JPanel panellFiltres = new JPanel();
         panellFiltres.setLayout(new FlowLayout());
 
         String[] noms = {"Totes", "Un Dia", "Periòdiques", "Online"};
-        botonsFiltre = new JButton[noms.length];
-        EscoltadorEsdeveniments escoltador = new EscoltadorEsdeveniments(this);
+        botonsFiltre = new JButton[4];
+        ListenerBotons listener = new ListenerBotons(this);
 
         for (int i = 0; i < noms.length; i++) {
             botonsFiltre[i] = new JButton(noms[i]);
-            botonsFiltre[i].addActionListener(escoltador);
+            botonsFiltre[i].addActionListener(listener);
             panellFiltres.add(botonsFiltre[i]);
         }
-        botonsFiltre[0].setBackground(Color.CYAN);
         this.add(panellFiltres, BorderLayout.SOUTH);
     }
 
-    // --- LÒGICA VISUAL ---
 
-    // Aquest mètode es crida quan cliquem "Canviar Data"
+    /**
+     * Funció per recarregar la data seleccionada per la selecció de mes i any al clicar el botó "Aplicar Data"
+     */
     public void recarregarData() {
-        try {
-            // Obtenim l'any del quadre de text
-            int nouAny = Integer.parseInt(textAny.getText());
-            // Obtenim el mes del desplegable (0=Gener, ... 10=Novembre). Sumem 1 per LocalDate
-            int nouMes = comboMesos.getSelectedIndex() + 1; 
+            int mesSeleccionat = botoMes.getSelectedIndex() + 1; 
+            int anySeleccionat = botoAny.getSelectedIndex() + 2020;
 
-            this.anyActual = nouAny;
-            this.mesActual = nouMes;
+            this.anySeleccionat = anySeleccionat;
+            this.mesSeleccionat = mesSeleccionat;
 
-            actualitzarCalendari(); // Repintar
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "L'any ha de ser un número vàlid.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+            actualitzarCalendari();
     }
 
-    public void canviarFiltre(int nouFiltre) {
-        this.filtreActual = nouFiltre;
-        for (int i = 0; i < botonsFiltre.length; i++) {
-            if (i == nouFiltre) botonsFiltre[i].setBackground(Color.CYAN);
-            else botonsFiltre[i].setBackground(null);
+    /**
+     * Funció per canviar el filtre segons el botó premut
+     * @param seleccio Índex del filtre seleccionat (0=Tots, 1=UnDia, 2=Periodica, 3=Online)
+     */
+    public void canviarFiltre(int seleccio) {
+        this.filtreActual = seleccio;
+        for (int i = 0; i < 4; i++) { // i < 4 perque tenim 4 botons de filtre
+            if (i == seleccio){
+                botonsFiltre[i].setBackground(Color.GREEN);
+            } 
+            else {
+                botonsFiltre[i].setBackground(Color.LIGHT_GRAY);
+            } 
         }
         actualitzarCalendari();
     }
 
-    // Mètode principal que pinta els dies
+    /**
+     * Funció per actualitzar el calendari segons el mes, any i filtre actuals
+     */
     public void actualitzarCalendari() {
-        // 1. Calculem quants dies té el mes seleccionat
-        YearMonth anyMes = YearMonth.of(anyActual, mesActual);
-        int diesAlMes = anyMes.lengthOfMonth(); // Ex: Febrer 2025 -> 28
+
+        // Mirar el mes i any per mirar quants dies té
+        YearMonth anyMes = YearMonth.of(anySeleccionat, mesSeleccionat);
+        int diesAlMes = anyMes.lengthOfMonth();
 
         for (int i = 0; i < MAX_DIES; i++) {
             int dia = i + 1;
-
             if (dia <= diesAlMes) {
-                // El dia existeix (Ex: dia 5) -> El mostrem i calculem color
+                // El setvisible en true fa que es vegi el boto del dia
                 botonsDies[i].setVisible(true);
                 
-                LocalDate dataDia = LocalDate.of(anyActual, mesActual, dia);
+                LocalDate dataDia = LocalDate.of(anySeleccionat, mesSeleccionat, dia);
                 if (hiHaActivitat(dataDia)) {
                     botonsDies[i].setBackground(Color.GREEN);
                 } else {
-                    botonsDies[i].setBackground(Color.LIGHT_GRAY);
+                    botonsDies[i].setBackground(Color.WHITE);
                 }
             } else {
-                // El dia no existeix (Ex: dia 30 de Febrer) -> L'amaguem
+                // Si el dia no existeix al mes seleccionat s'amaga el boto
                 botonsDies[i].setVisible(false);
             }
         }
     }
 
-    private boolean hiHaActivitat(LocalDate dia) {
-        for (int i = 0; i < dades.getnElems(); i++) {
-            Activitat act = dades.getActivitat(i);
-            if (act.teClasseAvui(dia)) {
-                boolean compleix = false;
-                if (filtreActual == 0) compleix = true;
-                else if (filtreActual == 1 && act instanceof ActivitatUnDia) compleix = true;
-                else if (filtreActual == 2 && act instanceof ActivitatPeriodica) compleix = true;
-                else if (filtreActual == 3 && act instanceof ActivitatOnline) compleix = true;
-                
-                if (compleix) return true;
-            }
-        }
-        return false;
-    }
-
-    // Retorna els detalls per al Popup
-    public String getTextDetallDia(int dia) {
-        LocalDate dataDia = LocalDate.of(anyActual, mesActual, dia);
-        String resultat = "";
-        boolean trobat = false;
+    /**
+     * Comprova si hi ha alguna activitat per a la data segons el filtre actual
+     * @param data Data a comprovar
+     * @return true si hi ha alguna activitat, false si no
+     */
+    private boolean hiHaActivitat(LocalDate data) {
+        boolean coincideix = false;
 
         for (int i = 0; i < dades.getnElems(); i++) {
+            coincideix = false;
             Activitat act = dades.getActivitat(i);
-            if (act.teClasseAvui(dataDia)) {
-                boolean mostrar = (filtreActual == 0) ||
-                                  (filtreActual == 1 && act instanceof ActivitatUnDia) ||
-                                  (filtreActual == 2 && act instanceof ActivitatPeriodica) ||
-                                  (filtreActual == 3 && act instanceof ActivitatOnline);
-                if (mostrar) {
-                    resultat += act.toString() + "\n\n";
-                    trobat = true;
+
+            if (act.teClasseAvui(data)) {
+                if (filtreActual == 0) {
+                    coincideix = true;
+                } 
+                else if (filtreActual == 1 && act instanceof ActivitatUnDia){
+                    coincideix = true;
+                } 
+                else if (filtreActual == 2 && act instanceof ActivitatPeriodica){
+                    coincideix = true;
+                }
+                else if (filtreActual == 3 && act instanceof ActivitatOnline){
+                    coincideix = true;
                 }
             }
         }
-        if (!trobat) return "No hi ha activitats aquest dia.";
+        return coincideix;
+    }
+
+    
+    public String detallDia(int dia) {
+        LocalDate data = LocalDate.of(anySeleccionat, mesSeleccionat, dia);
+        String resultat = "";
+        boolean hiHaAlguna = false;
+        boolean mostrar = false;
+
+        for (int i = 0; i < dades.getnElems(); i++) {
+            Activitat act = dades.getActivitat(i);
+            mostrar = false;
+
+            if (act.teClasseAvui(data)) {
+                if (act.teClasseAvui(data)) {
+                    if (filtreActual == 0) {
+                        mostrar = true;
+                    } 
+                    else if (filtreActual == 1 && act instanceof ActivitatUnDia){
+                        mostrar = true;
+                    } 
+                    else if (filtreActual == 2 && act instanceof ActivitatPeriodica){
+                        mostrar = true;
+                    }
+                    else if (filtreActual == 3 && act instanceof ActivitatOnline){
+                        mostrar = true;
+                    }
+
+                    if (mostrar) {
+                        resultat += act.toString() + "\n\n";
+                        hiHaAlguna = true;
+                    }
+                }
+            }
+        }
+
+        if (!hiHaAlguna) {
+                resultat += "No hi ha activitats aquest dia amb el filtre seleccionat.";
+        }
+
         return resultat;
     }
 
-    public static void main(String[] args) {
-        new FinestraPrincipal();
-    }
 }
