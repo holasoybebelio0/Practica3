@@ -199,7 +199,6 @@ public class FinestraPrincipal extends JFrame {
         boolean coincideix = false;
 
         for (int i = 0; i < dades.getnElems(); i++) {
-            coincideix = false;
             Activitat act = dades.getActivitat(i);
 
             if (act.teClasseAvui(data)) {
