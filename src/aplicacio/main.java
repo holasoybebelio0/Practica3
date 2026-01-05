@@ -165,23 +165,45 @@ public class main {
                     break;
 
                 case 22: // SORTIR I GUARDAR
-                    System.out.println("\n--- SORTIR DE L'APLICACIÓ ---");
-                    System.out.print("Vols guardar les dades abans de sortir? (S/N): ");
-                    String resp = scanner.nextLine().trim().toUpperCase();
+    System.out.println("\n--- SORTIR DE L'APLICACIÓ ---");
+    System.out.print("Vols guardar les dades abans de sortir? (S/N): ");
+    String resp = scanner.nextLine().trim().toUpperCase();
 
-                    if (resp.equals("S")) {
-                        System.out.println("Guardant dades...");
-                        try {
-                            // Guardem als mateixos llocs d'on hem llegit
-                            llistaUsuaris.guardarUsuarisFitxer("prova.txt");
-                            llistaActivitats.guardarActivitatsFitxer("src/provaActivitats.txt");
-                            llistaInscripcions.guardarLlistaSerialitzada("totes_inscripcions.dat");
-                            
-                            System.out.println("Dades guardades correctament.");
-                        } catch (Exception e) {
-                            System.out.println("Error al guardar: " + e.getMessage());
-                        }
-                        sortir = true;
+    if (resp.equals("S")) {
+        System.out.println("Guardant dades...");
+        try {
+            // 1. Guardar Usuaris
+            llistaUsuaris.guardarUsuarisFitxer("prova.txt");
+            
+            // 2. Guardar Activitats
+            llistaActivitats.guardarActivitatsFitxer("src/provaActivitats.txt");
+            
+            // 3. RECOPILAR I GUARDAR INSCRIPCIONS (Això és el que faltava)
+            // Creem una llista nova per ajuntar totes les inscripcions actuals
+            LlistaInscripcions llistaGlobalParaGuardar = new LlistaInscripcions(1000);
+            
+            // Recorrem totes les activitats per treure'n les inscripcions
+            for (int i = 0; i < llistaActivitats.getnElems(); i++) {
+                Activitat act = llistaActivitats.getActivitat(i);
+                LlistaInscripcions inscripcionsAct = act.getLlistaInscripcions();
+                
+                if (inscripcionsAct != null) {
+                    for(int j = 0; j < inscripcionsAct.getNumInscripcions(); j++) {
+                        // Copiem cada inscripció a la llista global
+                        llistaGlobalParaGuardar.afegirInscripcio(inscripcionsAct.getInscripcio(j).copia());
+                    }
+                }
+            }
+            
+            
+            llistaGlobalParaGuardar.guardarLlistaSerialitzada("totes_inscripcions.dat");
+                    
+            System.out.println("Dades guardades correctament.");
+                } catch (Exception e) {
+                    System.out.println("Error al guardar: " + e.getMessage());
+                    e.printStackTrace(); 
+                }
+                sortir = true;
                     } else if (resp.equals("N")) {
                         System.out.println("Sortint sense guardar.");
                         sortir = true;
