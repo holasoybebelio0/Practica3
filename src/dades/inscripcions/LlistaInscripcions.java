@@ -1,4 +1,4 @@
-package dades;
+package dades.inscripcions;
 
 import java.io.*; // Necessari per a la serialització i fitxers
 

@@ -1,4 +1,4 @@
-package dades;
+package dades.activitats;
 
 import java.time.LocalDate;
 

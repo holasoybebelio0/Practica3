@@ -1,6 +1,8 @@
 package aplicacio;
 
-import dades.*;
+import dades.activitats.ActivitatPeriodica;
+import dades.activitats.ActivitatUnDia;
+import dades.activitats.LlistaActivitats;
 import dades.usuaris.*;
 import java.time.LocalDate;
 import java.util.Scanner;

@@ -1,5 +1,9 @@
-package aplicacio;
-import dades.*;
+package aplicacio.proves;
+import dades.activitats.Activitat;
+import dades.activitats.ActivitatOnline;
+import dades.activitats.ActivitatPeriodica;
+import dades.activitats.ActivitatUnDia;
+import dades.activitats.LlistaActivitats;
 import java.time.LocalDate;
 
 public class ValidacioActivitat{

@@ -1,4 +1,4 @@
-package aplicacio;
+package aplicacio.proves;
 import dades.usuaris.*;
 
 public class ValidacioUsuaris{

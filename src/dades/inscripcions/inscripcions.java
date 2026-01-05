@@ -1,4 +1,4 @@
-package dades;
+package dades.inscripcions;
 
 import java.io.Serializable; // <--- IMPRESCINDIBLE
 import java.time.LocalDate;

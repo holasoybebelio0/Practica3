@@ -3,7 +3,12 @@ package aplicacioGrafica;
 import javax.swing.*;
 import java.awt.*;
 import java.time.*;
-import dades.*; 
+import dades.*;
+import dades.activitats.Activitat;
+import dades.activitats.ActivitatOnline;
+import dades.activitats.ActivitatPeriodica;
+import dades.activitats.ActivitatUnDia;
+import dades.activitats.LlistaActivitats; 
 
 public class FinestraPrincipal extends JFrame {
     public static void main(String[] args) {

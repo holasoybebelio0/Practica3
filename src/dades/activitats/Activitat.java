@@ -1,5 +1,7 @@
-package dades;
+package dades.activitats;
 
+import dades.inscripcions.LlistaInscripcions;
+import dades.inscripcions.inscripcions;
 import java.time.LocalDate;
 
 public abstract class Activitat {

@@ -1,5 +1,7 @@
-package aplicacio;
-import dades.*;
+package aplicacio.proves;
+import dades.inscripcions.LlistaInscripcions;
+import dades.inscripcions.inscripcions;
+import java.time.LocalDate;
 
 public class ValidacioInscripcions {
     public static void main(String[] args) {
@@ -7,9 +9,9 @@ public class ValidacioInscripcions {
 
         System.out.println("1. Creació d'objectes 'inscripcions'");
         // Hem canviat els noms a equivalents catalans
-        inscripcions p1 = new inscripcions("Joan Puig", "01/12/2025");
-        inscripcions p2 = new inscripcions("Maria Serra", "02/12/2025");
-        inscripcions p3 = new inscripcions("Carles Roig", "03/12/2025");
+        inscripcions p1 = new inscripcions("Joan Puig", "PDI", LocalDate.parse("2025-12-01"));
+        inscripcions p2 = new inscripcions("Maria Serra", "Estudiant", LocalDate.parse("2025-12-02"));
+        inscripcions p3 = new inscripcions("Carles Roig", "PTGAS", LocalDate.parse("2025-12-03"));
 
         // ToString
         System.out.println("Participant 1: " + p1.toString());
@@ -55,9 +57,7 @@ public class ValidacioInscripcions {
         // LLISTA D'ESPERA
         System.out.println("\n6. Provant creació Llista d'Espera");
         // Encara no està acabada la funció de llista d'espera
-        LlistaInscripcions espera = miLista.LlistaEspera();
-        System.out.println("S'ha creat una llista d'espera amb capacitat per a 10 (està buida):");
-        System.out.println(espera.toString());
+        
 
         
         

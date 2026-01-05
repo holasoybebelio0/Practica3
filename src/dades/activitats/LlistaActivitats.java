@@ -1,4 +1,5 @@
-package dades;
+package dades.activitats;
+import dades.inscripcions.*;
 import dades.usuaris.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
