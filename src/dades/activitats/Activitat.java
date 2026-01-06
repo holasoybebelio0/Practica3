@@ -85,7 +85,7 @@ public abstract class Activitat {
 
     private boolean esColectiuPermes(String tipusUsuari) {
         for (String colectiu : colectius) {
-            // CORRECCIÓ: Si el col·lectiu és "Tothom" o coincideix amb el tipus, retorna true
+            
             if (colectiu.equalsIgnoreCase("Tothom") || colectiu.equalsIgnoreCase(tipusUsuari)) {
                 return true;
             }
@@ -140,9 +140,22 @@ public abstract class Activitat {
 }
 
     
-    @Override
+  @Override
     public String toString() {
-        return "Activitat [nom=" + nom + ", colectius=" + colectius.toString() + ", dataIniciInscripcio="
+        // Construimos manualmente la representación del array
+        String llistaColectius = "[";
+        if (colectius != null) {
+            for (int i = 0; i < colectius.length; i++) {
+                llistaColectius += colectius[i];
+                // Añadimos una coma si no es el último elemento
+                if (i < colectius.length - 1) {
+                    llistaColectius += ", ";
+                }
+            }
+        }
+        llistaColectius += "]";
+
+        return "Activitat [nom=" + nom + ", colectius=" + llistaColectius + ", dataIniciInscripcio="
                 + dataIniciInscripcio + ", dataFinalInscripcio=" + dataFinalInscripcio + "]";
     }
 

@@ -19,16 +19,16 @@ public class main {
         // 2. CÀRREGA DE DADES
         System.out.println("Carregant dades del sistema...");
         
-        // Càrrega d'Usuaris (està a l'arrel del projecte)
+        // Càrrega d'Usuaris 
         llistaUsuaris.carregarUsuarisFitxer("prova.txt");
 
-        // Càrrega d'Activitats (està dins de la carpeta src)
+        // Càrrega d'Activitats ()
         
         llistaActivitats.carregarActivitatsFitxer("src/provaActivitats.txt");
 
         // Càrrega d'Inscripcions (fitxer serialitzat)
         try {
-            // Assignem el resultat a la variable (IMPORTANT: no cridar-ho a l'aire)
+            // Assignem el resultat a la variable 
             llistaInscripcions = LlistaInscripcions.carregarLlistaSerialitzada("totes_inscripcions.dat");
             System.out.println("Inscripcions carregades correctament.");
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public class main {
         
         boolean sortir = false;
 
-      // ... (código de carga de archivos anterior) ...
+      // 
         System.out.println("--------------------------------------------------");
 
         // =========================================================================
@@ -53,7 +53,7 @@ public class main {
         Activitat actVella = llistaActivitats.getActivitatPerNom(nomActividadTest);
         LocalDate faUnMes = LocalDate.now().minusMonths(1);
 
-        // CAS 1: L'activitat no existeix (primer cop que executes) -> La creem
+        //L'activitat no existeix (primer cop que executes) -> La creem
         if (actVella == null) {
             System.out.println("Creant activitat històrica 'Hackathon 2024'...");
             actVella = new ActivitatUnDia(
@@ -67,7 +67,7 @@ public class main {
             );
             llistaActivitats.afegirActivitatUnDia((ActivitatUnDia) actVella);
         } else {
-            // CAS 2: L'activitat existeix (carregada del fitxer txt) però pot estar buida
+            // L'activitat existeix (carregada del fitxer txt) però pot estar buida
             System.out.println("Activitat 'Hackathon 2024' trobada en memòria/fitxer.");
         }
 
