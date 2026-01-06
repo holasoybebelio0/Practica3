@@ -158,7 +158,7 @@ public class LlistaActivitats  {
     }
 
     
-    //TASCA 10 Inscriures a una activitat
+    
     // TASCA 10 Inscriures a una activitat
 public boolean inscriureUsuariActivitat(Usuari usuari, String nomActivitat, LocalDate dataActual) {
     //Buscar la actividad

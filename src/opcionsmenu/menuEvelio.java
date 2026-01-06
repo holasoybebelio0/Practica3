@@ -77,7 +77,7 @@ public class menuEvelio {
         System.out.println("Activitats creades: Futbol (Oberta), Basket (Plena), Java (Acabada/Tancada)");
         System.out.println("----------------------------------------\n");
 
-
+        
         // ==========================================
         // MENU INTERACTIU
         // ==========================================

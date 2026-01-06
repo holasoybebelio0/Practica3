@@ -23,7 +23,7 @@ public class main {
         llistaUsuaris.carregarUsuarisFitxer("prova.txt");
 
         // Càrrega d'Activitats (està dins de la carpeta src)
-        // MODIFICAT: Afegim "src/" perquè el trobi sense moure'l ni canviar la classe
+        
         llistaActivitats.carregarActivitatsFitxer("src/provaActivitats.txt");
 
         // Càrrega d'Inscripcions (fitxer serialitzat)
@@ -42,6 +42,64 @@ public class main {
         LocalDate avui = LocalDate.now(); 
         
         boolean sortir = false;
+
+      // ... (código de carga de archivos anterior) ...
+        System.out.println("--------------------------------------------------");
+
+        // =========================================================================
+        // GENERAR O RESTAURAR DADES DE PROVA (ACTIVITAT ACABADA I VALORADA)
+        // =========================================================================
+        String nomActividadTest = "Hackathon 2024";
+        Activitat actVella = llistaActivitats.getActivitatPerNom(nomActividadTest);
+        LocalDate faUnMes = LocalDate.now().minusMonths(1);
+
+        // CAS 1: L'activitat no existeix (primer cop que executes) -> La creem
+        if (actVella == null) {
+            System.out.println("Creant activitat històrica 'Hackathon 2024'...");
+            actVella = new ActivitatUnDia(
+                nomActividadTest,           
+                new String[]{"Tothom"},     
+                faUnMes.minusDays(30),      
+                faUnMes.minusDays(1),       
+                faUnMes,                    
+                "Campus Sescelades",        
+                0.0, 100, "09:00"           
+            );
+            llistaActivitats.afegirActivitatUnDia((ActivitatUnDia) actVella);
+        } else {
+            // CAS 2: L'activitat existeix (carregada del fitxer txt) però pot estar buida
+            System.out.println("Activitat 'Hackathon 2024' trobada en memòria/fitxer.");
+        }
+
+        // ARA AFEGIM LES INSCRIPCIONS SI NO HI SÓN
+        // Això soluciona el problema de que les mitjanes siguin 0,00 al reiniciar
+        
+        // 1. Inscripció JGarcia (PDI) -> Valoració 9
+        if (!actVella.conteUsuari("JGarcia")) {
+            System.out.println(" -> Restaurant inscripció de JGarcia...");
+            inscripcions ins1 = new inscripcions("JGarcia", "PDI", faUnMes.minusDays(10));
+            // Forcem l'afegit encara que les dates estiguin tancades (per recuperar dades)
+            if (actVella.getLlistaInscripcions().afegirInscripcio(ins1)) {
+                ins1.valorarExperiencia(9);
+            }
+        }
+
+        // 2. Inscripció evelio (Estudiant) -> Valoració 6
+        if (!actVella.conteUsuari("evelio")) {
+            System.out.println(" -> Restaurant inscripció de evelio...");
+            inscripcions ins2 = new inscripcions("evelio", "Estudiant", faUnMes.minusDays(10));
+            if (actVella.getLlistaInscripcions().afegirInscripcio(ins2)) {
+                ins2.valorarExperiencia(6);
+            }
+        }
+        
+        // Actualitzem el comptador d'inscrits per si de cas
+        if (actVella instanceof ActivitatUnDia) {
+            ((ActivitatUnDia)actVella).setninscrits(actVella.getLlistaInscripcions().getNumInscripcions());
+        }
+
+        System.out.println("Dades de 'Hackathon 2024' llestes per a proves.");
+        // =========================================================================
         
         while(!sortir) {
             mostrarMenu();
@@ -178,7 +236,7 @@ public class main {
             // 2. Guardar Activitats
             llistaActivitats.guardarActivitatsFitxer("src/provaActivitats.txt");
             
-            // 3. RECOPILAR I GUARDAR INSCRIPCIONS (Això és el que faltava)
+            
             // Creem una llista nova per ajuntar totes les inscripcions actuals
             LlistaInscripcions llistaGlobalParaGuardar = new LlistaInscripcions(1000);
             
@@ -219,7 +277,7 @@ public class main {
         }
     }
 
-    // --- MÈTODES AUXILIARS ---
+    
 
     public static void mostrarMenu() {
         System.out.println("\n==================================================");
